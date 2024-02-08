@@ -1,6 +1,8 @@
 package model
 
 import (
+	"strings"
+
 	"gopkg.in/guregu/null.v4"
 )
 
@@ -19,6 +21,18 @@ const (
 	LowestPrice
 )
 
+func NewSort(s string) SortBy {
+	switch strings.ToLower(s) {
+	case "newest":
+		return Newest
+	case "highest_price":
+		return HighestPrice
+	case "lowest_price":
+		return LowestPrice
+	}
+	return 0
+}
+
 type ProductSearchResponse struct {
 	Id       string  `json:"id"`
 	Title    string  `json:"title"`
@@ -28,12 +42,7 @@ type ProductSearchResponse struct {
 	Category string  `json:"category"`
 }
 
-type ProductSearchPagination struct {
-	Total      int    `json:"total"`
-	NextCursor string `json:"nextCursor"`
-}
-
 type SearchResponse struct {
 	Products   []ProductSearchResponse `json:"products"`
-	NextCursor string                  `json:"nextCursor"`
+	NextCursor string                  `json:"next_cursor"`
 }

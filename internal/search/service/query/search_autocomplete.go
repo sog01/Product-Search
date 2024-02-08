@@ -8,21 +8,21 @@ import (
 	"github.com/sog01/productdiscovery/internal/search/repository"
 )
 
-func SearchSuggestion(ctx context.Context, req model.SuggestionReq, repo repository.SearchRepository) (model.SuggestionResp, error) {
+func SearchAutocomplete(ctx context.Context, req model.AutocompleteReq, repo repository.SearchRepository) (model.AutocompleteResp, error) {
 	exec := pipe.PCtx(
 		repo.MatchQuery,
 		composeSuggestionResponse,
 	)
 
 	resp, err := exec(ctx, model.SearchReq{
-		Q:    req.Text,
+		Q:    req.Q,
 		Size: 5,
 	})
 	if err != nil {
-		return model.SuggestionResp{}, err
+		return model.AutocompleteResp{}, err
 	}
 
-	searchResp := pipe.Get[model.SuggestionResp](resp)
+	searchResp := pipe.Get[model.AutocompleteResp](resp)
 	return searchResp, nil
 }
 
@@ -36,7 +36,7 @@ func composeSuggestionResponse(ctx context.Context, args model.SearchReq, respon
 		suggestions = append(suggestions, title)
 	}
 
-	return model.SuggestionResp{
-		Suggestions: suggestions,
+	return model.AutocompleteResp{
+		Autocompletes: suggestions,
 	}, nil
 }

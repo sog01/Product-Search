@@ -12,7 +12,7 @@ import (
 
 type Service interface {
 	Search(ctx context.Context, req model.SearchReq) (model.SearchResponse, error)
-	SearchSuggestion(ctx context.Context, req model.SuggestionReq) (model.SuggestionResp, error)
+	SearchAutocomplete(ctx context.Context, req model.AutocompleteReq) (model.AutocompleteResp, error)
 	SearchTotal(ctx context.Context, req model.SearchTotalReq) (model.SearchTotalResp, error)
 	SearchCategory(ctx context.Context, req model.SearchCategoryReq) (model.SearchCategoryResp, error)
 	BulkInsert(ctx context.Context, req model.BulkInsertReq) (model.BulkInsertResp, error)
@@ -30,8 +30,8 @@ type SearchService struct {
 func (s SearchService) Search(ctx context.Context, req model.SearchReq) (model.SearchResponse, error) {
 	return query.Search(ctx, req, s.searchRepo)
 }
-func (s SearchService) SearchSuggestion(ctx context.Context, req model.SuggestionReq) (model.SuggestionResp, error) {
-	return query.SearchSuggestion(ctx, req, s.searchRepo)
+func (s SearchService) SearchAutocomplete(ctx context.Context, req model.AutocompleteReq) (model.AutocompleteResp, error) {
+	return query.SearchAutocomplete(ctx, req, s.searchRepo)
 }
 func (s SearchService) SearchTotal(ctx context.Context, req model.SearchTotalReq) (model.SearchTotalResp, error) {
 	return query.SearchTotal(ctx, req, s.searchTotalRepo)

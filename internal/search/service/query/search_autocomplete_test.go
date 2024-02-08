@@ -14,21 +14,21 @@ func TestSearchSuggestionResult(t *testing.T) {
 	ec := createIndices()
 	type args struct {
 		ctx  context.Context
-		req  model.SuggestionReq
+		req  model.AutocompleteReq
 		repo repository.SearchRepository
 	}
 	tests := []struct {
 		name    string
 		args    args
-		want    model.SuggestionResp
+		want    model.AutocompleteResp
 		wantErr bool
 	}{
 		{
 			name: "search suggestion",
 			args: args{
 				ctx: context.TODO(),
-				req: model.SuggestionReq{
-					Text: "v",
+				req: model.AutocompleteReq{
+					Q: "v",
 				},
 				repo: repository.NewSearchRepository(ec),
 			},
@@ -36,7 +36,7 @@ func TestSearchSuggestionResult(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := query.SearchSuggestion(tt.args.ctx, tt.args.req, tt.args.repo)
+			got, err := query.SearchAutocomplete(tt.args.ctx, tt.args.req, tt.args.repo)
 			if err != nil {
 				panic(err)
 			}
