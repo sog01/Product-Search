@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/olivere/elastic/v7"
 	"github.com/sog01/pipe"
@@ -29,6 +30,7 @@ func NewBulkUpdateRepository(cli *elastic.Client) BulkUpdateRepository {
 				if product.ImageURL.String != "" {
 					data["image_url"] = product.ImageURL.String
 				}
+				data["updated_at"] = time.Now().UTC()
 				reqs = append(reqs, elastic.NewBulkUpdateRequest().
 					Index("product_discovery").
 					Doc(data).

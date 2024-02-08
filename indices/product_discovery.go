@@ -52,6 +52,12 @@ func CreateProductDiscovery(ec *elastic.Client) error {
                 },
                 "price": {
                     "type": "double"
+                },
+                "created_at": {
+                    "type": "date"
+                },
+                "updated_at": {
+                    "type": "date"
                 }
             }
         }

@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/olivere/elastic/v7"
 	"github.com/sog01/pipe"
@@ -20,15 +21,28 @@ func NewSearchRepository(cli *elastic.Client) SearchRepository {
 			search := cli.Search("product_discovery").
 				Query(
 					elastic.NewMatchQuery("title", args.Q),
-				).
-				Sort("id", false)
+				)
 
 			if args.NextCursor.String != "" {
-				search.SearchAfter(args.NextCursor.String)
+				searchAfter := []any{}
+				for _, c := range strings.Split(args.NextCursor.String, ",") {
+					searchAfter = append(searchAfter, c)
+				}
+				search.SearchAfter(searchAfter...)
 			}
 			if args.Size > 0 {
 				search.Size(args.Size)
 			}
+
+			switch args.SortBy {
+			case model.Newest:
+				search.Sort("created_at", false)
+			case model.HighestPrice:
+				search.Sort("price", false)
+			case model.LowestPrice:
+				search.Sort("price", true)
+			}
+			search.Sort("id", false)
 
 			res, err := search.Do(ctx)
 			if err != nil {

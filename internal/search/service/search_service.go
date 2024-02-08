@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/sog01/pipe"
@@ -42,7 +43,12 @@ func composeResponse(ctx context.Context, args model.SearchReq, responses pipe.R
 
 	sortStrings := []string{}
 	for _, s := range sort {
-		sortStrings = append(sortStrings, fmt.Sprintf("%v", s))
+		switch v := s.(type) {
+		case float64:
+			sortStrings = append(sortStrings, strconv.FormatFloat(v, 'f', -1, 64))
+		default:
+			sortStrings = append(sortStrings, fmt.Sprintf("%v", s))
+		}
 	}
 
 	return model.SearchResponse{

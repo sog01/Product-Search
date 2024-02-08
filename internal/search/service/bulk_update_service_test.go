@@ -32,7 +32,7 @@ func TestBulkUpdateResult(t *testing.T) {
 				req: model.BulkUpdateReq{
 					ProductSearchUpdate: []model.ProductSearchUpdate{
 						{
-							Id:     uuid.FromStringOrNil("dc7e9ae4-4b4e-4b74-8a9a-fa24ecb9dd7c"),
+							Id:     uuid.FromStringOrNil("4cbc68b5-e151-4f20-b84e-4abe53e4b210"),
 							Title:  null.StringFrom("VGA 13x Update1 Repository"),
 							CTAURL: null.StringFrom("https://cta_url/update1"),
 						},

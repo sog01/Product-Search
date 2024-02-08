@@ -8,7 +8,16 @@ type SearchReq struct {
 	Q          string      `json:"q"`
 	NextCursor null.String `json:"next_cursor"`
 	Size       int         `json:"size"`
+	SortBy     SortBy      `json:"sortBy"`
 }
+
+type SortBy int
+
+const (
+	Newest SortBy = iota + 1
+	HighestPrice
+	LowestPrice
+)
 
 type ProductSearchResponse struct {
 	Id       string  `json:"id"`

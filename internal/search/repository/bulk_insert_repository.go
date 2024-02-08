@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/olivere/elastic/v7"
 	uuid "github.com/satori/go.uuid"
@@ -21,11 +22,13 @@ func NewBulkInsertRepository(cli *elastic.Client) BulkInsertRepository {
 			for _, product := range args.ProductSearchInput {
 				id := uuid.NewV4().String()
 				data := map[string]interface{}{
-					"id":        id,
-					"title":     product.Title,
-					"image_url": product.ImageURL,
-					"cta_url":   product.CTAURL,
-					"price":     product.Price,
+					"id":         id,
+					"title":      product.Title,
+					"image_url":  product.ImageURL,
+					"cta_url":    product.CTAURL,
+					"price":      product.Price,
+					"created_at": time.Now().UTC(),
+					"updated_at": time.Now().UTC(),
 				}
 				reqs = append(reqs, elastic.NewBulkCreateRequest().
 					Index("product_discovery").
