@@ -11,6 +11,7 @@ type ProductSearchUpdate struct {
 	CTAURL   null.String `json:"cta_url"`
 	ImageURL null.String `json:"image_url"`
 	Price    null.Float  `json:"price"`
+	Category null.String `json:"category"`
 }
 
 type ProductSearchUpdateResponse struct {

@@ -2,13 +2,15 @@ package model
 
 import (
 	uuid "github.com/satori/go.uuid"
+	"gopkg.in/guregu/null.v4"
 )
 
 type ProductSearchInsert struct {
-	Title    string  `json:"title"`
-	CTAURL   string  `json:"cta_url"`
-	ImageURL string  `json:"image_url"`
-	Price    float64 `json:"price"`
+	Title    string      `json:"title"`
+	CTAURL   string      `json:"cta_url"`
+	ImageURL string      `json:"image_url"`
+	Price    float64     `json:"price"`
+	Category null.String `json:"category"`
 }
 
 type ProductSearchInsertResponse struct {

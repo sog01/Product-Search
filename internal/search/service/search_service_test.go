@@ -31,7 +31,6 @@ func TestSearchResult(t *testing.T) {
 			args: args{
 				ctx: context.TODO(),
 				req: model.SearchReq{
-					Q:      "v",
 					Size:   10,
 					SortBy: model.LowestPrice,
 				},

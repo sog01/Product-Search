@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/olivere/elastic/v7"
@@ -29,6 +30,9 @@ func NewBulkInsertRepository(cli *elastic.Client) BulkInsertRepository {
 					"price":      product.Price,
 					"created_at": time.Now().UTC(),
 					"updated_at": time.Now().UTC(),
+				}
+				if product.Category.String != "" {
+					data["category"] = strings.ToLower(product.Category.String)
 				}
 				reqs = append(reqs, elastic.NewBulkCreateRequest().
 					Index("product_discovery").

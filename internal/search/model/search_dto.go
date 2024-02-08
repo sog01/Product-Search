@@ -25,6 +25,7 @@ type ProductSearchResponse struct {
 	CTAURL   string  `json:"cta_url"`
 	ImageURL string  `json:"image_url"`
 	Price    float64 `json:"price"`
+	Category string  `json:"category"`
 }
 
 type ProductSearchPagination struct {

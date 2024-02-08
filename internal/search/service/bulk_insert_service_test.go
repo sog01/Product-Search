@@ -8,6 +8,7 @@ import (
 	"github.com/sog01/productdiscovery/internal/search/model"
 	"github.com/sog01/productdiscovery/internal/search/repository"
 	"github.com/sog01/productdiscovery/internal/search/service"
+	"gopkg.in/guregu/null.v4"
 )
 
 func TestBulkInsertResult(t *testing.T) {
@@ -33,10 +34,18 @@ func TestBulkInsertResult(t *testing.T) {
 							Title:    "VGA Graphic Card",
 							CTAURL:   "https://cta_url",
 							ImageURL: "https://image_url",
+							Category: null.StringFrom("computer"),
 							Price:    100,
 						},
 						{
 							Title:    "White Vein",
+							CTAURL:   "https://cta_url",
+							ImageURL: "https://image_url",
+							Category: null.StringFrom("clothes"),
+							Price:    900000,
+						},
+						{
+							Title:    "Unknown",
 							CTAURL:   "https://cta_url",
 							ImageURL: "https://image_url",
 							Price:    900000,

@@ -18,11 +18,13 @@ type SearchRepository struct {
 func NewSearchRepository(cli *elastic.Client) SearchRepository {
 	return SearchRepository{
 		MatchQuery: func(ctx context.Context, args model.SearchReq, responses pipe.Responses) (response any, err error) {
-			search := cli.Search("product_discovery").
-				Query(
+			search := cli.Search("product_discovery")
+
+			if args.Q != "" {
+				search.Query(
 					elastic.NewMatchQuery("title", args.Q),
 				)
-
+			}
 			if args.NextCursor.String != "" {
 				searchAfter := []any{}
 				for _, c := range strings.Split(args.NextCursor.String, ",") {
