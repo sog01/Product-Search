@@ -1,8 +1,6 @@
-package search
+package model
 
 import (
-	"context"
-
 	uuid "github.com/satori/go.uuid"
 )
 
@@ -20,7 +18,6 @@ type ProductSearchInsertResponse struct {
 
 type BulkInsertReq struct {
 	ProductSearchInput []ProductSearchInsert `json:"products"`
-	ctx                context.Context
 }
 
 type BulkInsertResp struct {

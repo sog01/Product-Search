@@ -1,16 +1,22 @@
-package search
+package repository
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/olivere/elastic/v7"
 	uuid "github.com/satori/go.uuid"
 	"github.com/sog01/pipe"
+	"github.com/sog01/productdiscovery/internal/search/model"
 )
+
+type BulkInsertRepository struct {
+	BulkInsert pipe.FuncCtx[model.BulkInsertReq]
+}
 
 func NewBulkInsertRepository(cli *elastic.Client) BulkInsertRepository {
 	return BulkInsertRepository{
-		BulkInsert: func(args BulkInsertReq, responses pipe.Responses) (response any, err error) {
+		BulkInsert: func(ctx context.Context, args model.BulkInsertReq, responses pipe.Responses) (response any, err error) {
 			reqs := []elastic.BulkableRequest{}
 			for _, product := range args.ProductSearchInput {
 				id := uuid.NewV4().String()
@@ -30,7 +36,7 @@ func NewBulkInsertRepository(cli *elastic.Client) BulkInsertRepository {
 
 			_, err = cli.Bulk().
 				Add(reqs...).
-				Do(args.ctx)
+				Do(ctx)
 			if err != nil {
 				return nil, fmt.Errorf("failed bulk insert product: %v", err)
 			}

@@ -1,4 +1,4 @@
-package search_test
+package service_test
 
 import (
 	"context"
@@ -7,37 +7,39 @@ import (
 
 	"github.com/olivere/elastic/v7"
 	"github.com/sog01/productdiscovery/indices"
-	"github.com/sog01/productdiscovery/internal/search"
+	"github.com/sog01/productdiscovery/internal/search/model"
+	"github.com/sog01/productdiscovery/internal/search/repository"
+	"github.com/sog01/productdiscovery/internal/search/service"
 )
 
-func TestSearchRepositoryResult(t *testing.T) {
+func TestSearchResult(t *testing.T) {
 	ec := createIndices()
 	type args struct {
 		ctx  context.Context
-		req  search.SearchReq
-		repo search.SearchRepository
+		req  model.SearchReq
+		repo repository.SearchRepository
 	}
 
 	tests := []struct {
 		name    string
 		args    args
-		want    search.SearchResponse
+		want    model.SearchResponse
 		wantErr bool
 	}{
 		{
 			name: "search",
 			args: args{
 				ctx: context.TODO(),
-				req: search.SearchReq{
+				req: model.SearchReq{
 					Q: "vga",
 				},
-				repo: search.NewSearchRepository(ec),
+				repo: repository.NewSearchRepository(ec),
 			},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := search.Search(tt.args.ctx, tt.args.req, tt.args.repo)
+			got, err := service.Search(tt.args.ctx, tt.args.req, tt.args.repo)
 			if err != nil {
 				panic(err)
 			}

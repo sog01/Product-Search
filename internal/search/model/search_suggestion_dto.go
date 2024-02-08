@@ -1,10 +1,7 @@
-package search
-
-import "context"
+package model
 
 type SuggestionReq struct {
 	Text string `json:"text"`
-	ctx  context.Context
 }
 
 type SuggestionResp struct {

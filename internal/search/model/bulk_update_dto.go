@@ -1,8 +1,6 @@
-package search
+package model
 
 import (
-	"context"
-
 	uuid "github.com/satori/go.uuid"
 	"gopkg.in/guregu/null.v4"
 )
@@ -22,7 +20,6 @@ type ProductSearchUpdateResponse struct {
 
 type BulkUpdateReq struct {
 	ProductSearchUpdate []ProductSearchUpdate `json:"products"`
-	ctx                 context.Context
 }
 
 type BulkUpdateResp struct {

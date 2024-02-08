@@ -1,15 +1,21 @@
-package search
+package repository
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/olivere/elastic/v7"
 	"github.com/sog01/pipe"
+	"github.com/sog01/productdiscovery/internal/search/model"
 )
+
+type BulkUpdateRepository struct {
+	BulkUpdate pipe.FuncCtx[model.BulkUpdateReq]
+}
 
 func NewBulkUpdateRepository(cli *elastic.Client) BulkUpdateRepository {
 	return BulkUpdateRepository{
-		BulkUpdate: func(args BulkUpdateReq, responses pipe.Responses) (response any, err error) {
+		BulkUpdate: func(ctx context.Context, args model.BulkUpdateReq, responses pipe.Responses) (response any, err error) {
 			reqs := []elastic.BulkableRequest{}
 			for _, product := range args.ProductSearchUpdate {
 				id := product.Id.String()
@@ -32,7 +38,7 @@ func NewBulkUpdateRepository(cli *elastic.Client) BulkUpdateRepository {
 
 			_, err = cli.Bulk().
 				Add(reqs...).
-				Do(args.ctx)
+				Do(ctx)
 			if err != nil {
 				return nil, fmt.Errorf("failed bulk update product: %v", err)
 			}

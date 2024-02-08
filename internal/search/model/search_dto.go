@@ -1,8 +1,6 @@
-package search
+package model
 
 import (
-	"context"
-
 	"gopkg.in/guregu/null.v4"
 )
 
@@ -10,7 +8,6 @@ type SearchReq struct {
 	Q          string      `json:"q"`
 	NextCursor null.String `json:"next_cursor"`
 	Size       int         `json:"size"`
-	ctx        context.Context
 }
 
 type ProductSearchResponse struct {

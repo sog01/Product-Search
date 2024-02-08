@@ -1,47 +1,49 @@
-package search_test
+package service_test
 
 import (
 	"context"
 	"fmt"
 	"testing"
 
-	"github.com/sog01/productdiscovery/internal/search"
+	"github.com/sog01/productdiscovery/internal/search/model"
+	"github.com/sog01/productdiscovery/internal/search/repository"
+	"github.com/sog01/productdiscovery/internal/search/service"
 )
 
 func TestBulkInsertResult(t *testing.T) {
 	ec := createIndices()
 	type args struct {
 		ctx  context.Context
-		req  search.BulkInsertReq
-		repo search.BulkInsertRepository
+		req  model.BulkInsertReq
+		repo repository.BulkInsertRepository
 	}
 	tests := []struct {
 		name    string
 		args    args
-		want    search.SearchResponse
+		want    model.BulkInsertResp
 		wantErr bool
 	}{
 		{
 			name: "bulk insert",
 			args: args{
 				ctx: context.TODO(),
-				req: search.BulkInsertReq{
-					ProductSearchInput: []search.ProductSearchInsert{
+				req: model.BulkInsertReq{
+					ProductSearchInput: []model.ProductSearchInsert{
 						{
-							Title:    "Valve Car",
+							Title:    "VGA Graphic Card",
 							CTAURL:   "https://cta_url",
 							ImageURL: "https://image_url",
 							Price:    100000,
 						},
 					},
 				},
-				repo: search.NewBulkInsertRepository(ec),
+				repo: repository.NewBulkInsertRepository(ec),
 			},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := search.BulkInsert(tt.args.ctx, tt.args.req, tt.args.repo)
+			got, err := service.BulkInsert(tt.args.ctx, tt.args.req, tt.args.repo)
 			if err != nil {
 				panic(err)
 			}
