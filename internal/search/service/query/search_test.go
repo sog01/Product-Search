@@ -1,4 +1,4 @@
-package service_test
+package query_test
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 	"github.com/sog01/productdiscovery/indices"
 	"github.com/sog01/productdiscovery/internal/search/model"
 	"github.com/sog01/productdiscovery/internal/search/repository"
-	"github.com/sog01/productdiscovery/internal/search/service"
+	"github.com/sog01/productdiscovery/internal/search/service/query"
 )
 
 func TestSearchResult(t *testing.T) {
@@ -40,7 +40,7 @@ func TestSearchResult(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := service.Search(tt.args.ctx, tt.args.req, tt.args.repo)
+			got, err := query.Search(tt.args.ctx, tt.args.req, tt.args.repo)
 			if err != nil {
 				panic(err)
 			}

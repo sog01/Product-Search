@@ -6,6 +6,8 @@ import (
 	"github.com/olivere/elastic/v7"
 	"github.com/sog01/productdiscovery/internal/search/model"
 	"github.com/sog01/productdiscovery/internal/search/repository"
+	"github.com/sog01/productdiscovery/internal/search/service/mutation"
+	"github.com/sog01/productdiscovery/internal/search/service/query"
 )
 
 type Service interface {
@@ -26,22 +28,22 @@ type SearchService struct {
 }
 
 func (s SearchService) Search(ctx context.Context, req model.SearchReq) (model.SearchResponse, error) {
-	return Search(ctx, req, s.searchRepo)
+	return query.Search(ctx, req, s.searchRepo)
 }
 func (s SearchService) SearchSuggestion(ctx context.Context, req model.SuggestionReq) (model.SuggestionResp, error) {
-	return SearchSuggestion(ctx, req, s.searchRepo)
+	return query.SearchSuggestion(ctx, req, s.searchRepo)
 }
 func (s SearchService) SearchTotal(ctx context.Context, req model.SearchTotalReq) (model.SearchTotalResp, error) {
-	return SearchTotal(ctx, req, s.searchTotalRepo)
+	return query.SearchTotal(ctx, req, s.searchTotalRepo)
 }
 func (s SearchService) SearchCategory(ctx context.Context, req model.SearchCategoryReq) (model.SearchCategoryResp, error) {
-	return SearchCategory(ctx, req, s.searchCategoryRepo)
+	return query.SearchCategory(ctx, req, s.searchCategoryRepo)
 }
 func (s SearchService) BulkInsert(ctx context.Context, req model.BulkInsertReq) (model.BulkInsertResp, error) {
-	return BulkInsert(ctx, req, s.bulkInsertRepo)
+	return mutation.BulkInsert(ctx, req, s.bulkInsertRepo)
 }
 func (s SearchService) BulkUpdate(ctx context.Context, req model.BulkUpdateReq) (model.BulkUpdateResp, error) {
-	return BulkUpdate(ctx, req, s.bulkUpdateRepo)
+	return mutation.BulkUpdate(ctx, req, s.bulkUpdateRepo)
 }
 
 func NewService(es *elastic.Client) Service {

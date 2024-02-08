@@ -1,4 +1,4 @@
-package service_test
+package mutation_test
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 	uuid "github.com/satori/go.uuid"
 	"github.com/sog01/productdiscovery/internal/search/model"
 	"github.com/sog01/productdiscovery/internal/search/repository"
-	"github.com/sog01/productdiscovery/internal/search/service"
+	"github.com/sog01/productdiscovery/internal/search/service/mutation"
 	"gopkg.in/guregu/null.v4"
 )
 
@@ -44,7 +44,7 @@ func TestBulkUpdateResult(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := service.BulkUpdate(tt.args.ctx, tt.args.req, tt.args.repo)
+			got, err := mutation.BulkUpdate(tt.args.ctx, tt.args.req, tt.args.repo)
 			if err != nil {
 				panic(err)
 			}

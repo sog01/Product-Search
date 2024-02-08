@@ -1,4 +1,4 @@
-package service_test
+package query_test
 
 import (
 	"context"
@@ -7,36 +7,36 @@ import (
 
 	"github.com/sog01/productdiscovery/internal/search/model"
 	"github.com/sog01/productdiscovery/internal/search/repository"
-	"github.com/sog01/productdiscovery/internal/search/service"
+	"github.com/sog01/productdiscovery/internal/search/service/query"
 )
 
-func TestSearchCategory(t *testing.T) {
+func TestSearchSuggestionResult(t *testing.T) {
 	ec := createIndices()
 	type args struct {
 		ctx  context.Context
-		args model.SearchCategoryReq
-		repo repository.SearchCategoryRepository
+		req  model.SuggestionReq
+		repo repository.SearchRepository
 	}
 	tests := []struct {
 		name    string
 		args    args
-		want    model.SearchCategoryResp
+		want    model.SuggestionResp
 		wantErr bool
 	}{
 		{
-			name: "search category",
+			name: "search suggestion",
 			args: args{
-				ctx: context.Background(),
-				args: model.SearchCategoryReq{
-					Q: "vga",
+				ctx: context.TODO(),
+				req: model.SuggestionReq{
+					Text: "v",
 				},
-				repo: repository.NewSearchCategoryRepository(ec),
+				repo: repository.NewSearchRepository(ec),
 			},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := service.SearchCategory(tt.args.ctx, tt.args.args, tt.args.repo)
+			got, err := query.SearchSuggestion(tt.args.ctx, tt.args.req, tt.args.repo)
 			if err != nil {
 				panic(err)
 			}

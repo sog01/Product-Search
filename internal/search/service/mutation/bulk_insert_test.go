@@ -1,13 +1,15 @@
-package service_test
+package mutation_test
 
 import (
 	"context"
 	"fmt"
 	"testing"
 
+	"github.com/olivere/elastic/v7"
+	"github.com/sog01/productdiscovery/indices"
 	"github.com/sog01/productdiscovery/internal/search/model"
 	"github.com/sog01/productdiscovery/internal/search/repository"
-	"github.com/sog01/productdiscovery/internal/search/service"
+	"github.com/sog01/productdiscovery/internal/search/service/mutation"
 	"gopkg.in/guregu/null.v4"
 )
 
@@ -58,11 +60,21 @@ func TestBulkInsertResult(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := service.BulkInsert(tt.args.ctx, tt.args.req, tt.args.repo)
+			got, err := mutation.BulkInsert(tt.args.ctx, tt.args.req, tt.args.repo)
 			if err != nil {
 				panic(err)
 			}
 			fmt.Println(got)
 		})
 	}
+}
+
+func createIndices() *elastic.Client {
+	ec, err := elastic.NewClient()
+	if err != nil {
+		panic(err)
+	}
+
+	indices.CreateProductDiscovery(ec)
+	return ec
 }

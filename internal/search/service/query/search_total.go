@@ -1,4 +1,4 @@
-package service
+package query
 
 import (
 	"context"
