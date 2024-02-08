@@ -23,8 +23,9 @@ func SearchTotal(ctx context.Context, args model.SearchTotalReq, repo repository
 }
 
 func composeSearchTotalResponse(ctx context.Context, args model.SearchTotalReq, responses pipe.Responses) (response any, err error) {
-	totalData := pipe.Get[int64](responses)
+	res := pipe.Get[map[string]any](responses)
+	total, _ := res["total"].(int64)
 	return model.SearchTotalResp{
-		Total: totalData,
+		Total: total,
 	}, nil
 }

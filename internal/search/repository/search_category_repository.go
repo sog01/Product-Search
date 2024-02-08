@@ -35,7 +35,9 @@ func NewSearchCategoryRepository(cli *elastic.Client) SearchCategoryRepository {
 					"count":    bucket.DocCount,
 				})
 			}
-			return buckets, nil
+			return map[string]any{
+				"data": buckets,
+			}, nil
 		},
 	}
 }

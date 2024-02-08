@@ -51,12 +51,17 @@ func NewSearchRepository(cli *elastic.Client) SearchRepository {
 				return nil, fmt.Errorf("failed to search product: %v", err)
 			}
 			result := make(map[string]any)
-			sources := []json.RawMessage{}
+			sources := []map[string]any{}
 			for _, hit := range res.Hits.Hits {
-				sources = append(sources, hit.Source)
+				source := make(map[string]any)
+				err := json.Unmarshal(hit.Source, &source)
+				if err != nil {
+					return nil, fmt.Errorf("failed unmarshal on search product: %v", err)
+				}
+				sources = append(sources, source)
 				result["sort"] = hit.Sort
 			}
-			result["sources"] = sources
+			result["data"] = sources
 
 			return result, nil
 		},

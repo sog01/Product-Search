@@ -48,7 +48,7 @@ func NewBulkInsertRepository(cli *elastic.Client) BulkInsertRepository {
 				return nil, fmt.Errorf("failed bulk insert product: %v", err)
 			}
 
-			return nil, nil
+			return map[string]any{}, nil
 		},
 	}
 }

@@ -49,7 +49,7 @@ func NewBulkUpdateRepository(cli *elastic.Client) BulkUpdateRepository {
 				return nil, fmt.Errorf("failed bulk update product: %v", err)
 			}
 
-			return nil, nil
+			return map[string]any{}, nil
 		},
 	}
 }

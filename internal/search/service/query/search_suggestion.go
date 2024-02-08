@@ -2,8 +2,6 @@ package query
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
 
 	"github.com/sog01/pipe"
 	"github.com/sog01/productdiscovery/internal/search/model"
@@ -32,13 +30,10 @@ func composeSuggestionResponse(ctx context.Context, args model.SearchReq, respon
 	result := pipe.Get[map[string]any](responses)
 	suggestions := []string{}
 
-	sources, _ := result["sources"].([]json.RawMessage)
-	for _, source := range sources {
-		var pres model.ProductSearchResponse
-		if err := json.Unmarshal(source, &pres); err != nil {
-			return nil, fmt.Errorf("failed unmarshal json from product search: %v", err)
-		}
-		suggestions = append(suggestions, pres.Title)
+	data, _ := result["data"].([]map[string]any)
+	for _, d := range data {
+		title, _ := d["title"].(string)
+		suggestions = append(suggestions, title)
 	}
 
 	return model.SuggestionResp{

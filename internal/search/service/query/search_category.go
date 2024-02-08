@@ -23,13 +23,13 @@ func SearchCategory(ctx context.Context, args model.SearchCategoryReq, repo repo
 }
 
 func composeCategoryResponse(ctx context.Context, args model.SearchCategoryReq, responses pipe.Responses) (response any, err error) {
-	res := pipe.Get[[]map[string]any](responses)
-
+	res := pipe.Get[map[string]any](responses)
+	data, _ := res["data"].([]map[string]any)
 	categories := []model.ProductSearchCategory{}
-	for _, r := range res {
+	for _, d := range data {
 		category := model.ProductSearchCategory{}
-		category.Category, _ = r["category"].(string)
-		category.Count, _ = r["count"].(int64)
+		category.Category, _ = d["category"].(string)
+		category.Count, _ = d["count"].(int64)
 		categories = append(categories, category)
 	}
 	return model.SearchCategoryResp{Categories: categories}, nil

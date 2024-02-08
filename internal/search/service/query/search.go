@@ -2,7 +2,6 @@ package query
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"strconv"
 	"strings"
@@ -31,13 +30,16 @@ func composeResponse(ctx context.Context, args model.SearchReq, responses pipe.R
 	result := pipe.Get[map[string]any](responses)
 	productListResp := []model.ProductSearchResponse{}
 
-	sources, _ := result["sources"].([]json.RawMessage)
+	data, _ := result["data"].([]map[string]any)
 	sort, _ := result["sort"].([]any)
-	for _, source := range sources {
+	for _, d := range data {
 		var pres model.ProductSearchResponse
-		if err := json.Unmarshal(source, &pres); err != nil {
-			return nil, fmt.Errorf("failed unmarshal json from product search: %v", err)
-		}
+		pres.Id, _ = d["id"].(string)
+		pres.Title, _ = d["title"].(string)
+		pres.CTAURL, _ = d["cta_url"].(string)
+		pres.ImageURL, _ = d["image_url"].(string)
+		pres.Price, _ = d["price"].(float64)
+		pres.Category, _ = d["category"].(string)
 		productListResp = append(productListResp, pres)
 	}
 

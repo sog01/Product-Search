@@ -27,7 +27,9 @@ func NewSearchTotalRepository(cli *elastic.Client) SearchTotalRepository {
 				return nil, fmt.Errorf("failed count total product: %v", err)
 			}
 
-			return total, nil
+			return map[string]any{
+				"total": total,
+			}, nil
 		},
 	}
 }
