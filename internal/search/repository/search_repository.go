@@ -20,11 +20,17 @@ func NewSearchRepository(cli *elastic.Client) SearchRepository {
 		MatchQuery: func(ctx context.Context, args model.SearchReq, responses pipe.Responses) (response any, err error) {
 			search := cli.Search("product_discovery")
 
+			queries := []elastic.Query{}
 			if args.Q != "" {
-				search.Query(
-					elastic.NewMatchQuery("title", args.Q),
-				)
+				queries = append(queries, elastic.NewMatchQuery("title", args.Q))
 			}
+			if args.Catalog.String != "" {
+				queries = append(queries, elastic.NewTermsQuery("catalog", args.Catalog.String))
+			}
+			if len(queries) > 0 {
+				search.Query(elastic.NewBoolQuery().Filter(queries...))
+			}
+
 			if args.NextCursor.String != "" {
 				searchAfter := []any{}
 				for _, c := range strings.Split(args.NextCursor.String, ",") {

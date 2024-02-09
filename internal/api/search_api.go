@@ -14,6 +14,9 @@ func (api Router) Search(c *gin.Context) {
 	r := model.SearchReq{
 		Q: c.Query("q"),
 	}
+	if catalog := c.Query("catalog"); catalog != "" {
+		r.Catalog = null.StringFrom(catalog)
+	}
 	if nextCursor := c.Query("next_cursor"); nextCursor != "" {
 		r.NextCursor = null.StringFrom(nextCursor)
 	}

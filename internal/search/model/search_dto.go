@@ -8,6 +8,7 @@ import (
 
 type SearchReq struct {
 	Q          string      `json:"q"`
+	Catalog    null.String `json:"catalog"`
 	NextCursor null.String `json:"next_cursor"`
 	Size       int         `json:"size"`
 	SortBy     SortBy      `json:"sortBy"`
