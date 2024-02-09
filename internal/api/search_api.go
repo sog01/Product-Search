@@ -58,11 +58,11 @@ func (api Router) SearchTotal(c *gin.Context) {
 	c.JSON(http.StatusOK, resp)
 }
 
-func (api Router) SearchCategories(c *gin.Context) {
-	r := model.SearchCategoryReq{
+func (api Router) SearchCatalogs(c *gin.Context) {
+	r := model.SearchCatalogsReq{
 		Q: c.Query("q"),
 	}
-	resp, err := api.searchService.SearchCategory(c.Request.Context(), r)
+	resp, err := api.searchService.SearchCatalogs(c.Request.Context(), r)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, map[string]any{
 			"error": err.Error(),

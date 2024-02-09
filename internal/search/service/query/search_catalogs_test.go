@@ -10,33 +10,33 @@ import (
 	"github.com/sog01/productdiscovery/internal/search/service/query"
 )
 
-func TestSearchCategory(t *testing.T) {
+func TestSearchCatalogsResult(t *testing.T) {
 	ec := createIndices()
 	type args struct {
 		ctx  context.Context
-		args model.SearchCategoryReq
+		args model.SearchCatalogsReq
 		repo repository.SearchCategoryRepository
 	}
 	tests := []struct {
 		name    string
 		args    args
-		want    model.SearchCategoryResp
+		want    model.SearchCatalogsResp
 		wantErr bool
 	}{
 		{
-			name: "search category",
+			name: "search catalogs",
 			args: args{
 				ctx: context.Background(),
-				args: model.SearchCategoryReq{
+				args: model.SearchCatalogsReq{
 					Q: "vga",
 				},
-				repo: repository.NewSearchCategoryRepository(ec),
+				repo: repository.NewSearchCatalogsRepository(ec),
 			},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := query.SearchCategory(tt.args.ctx, tt.args.args, tt.args.repo)
+			got, err := query.SearchCatalogs(tt.args.ctx, tt.args.args, tt.args.repo)
 			if err != nil {
 				panic(err)
 			}

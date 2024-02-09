@@ -10,7 +10,7 @@ type ProductSearchInsert struct {
 	CTAURL   string      `json:"cta_url"`
 	ImageURL string      `json:"image_url"`
 	Price    float64     `json:"price"`
-	Category null.String `json:"category"`
+	Catalog  null.String `json:"catalog"`
 }
 
 type ProductSearchInsertResponse struct {

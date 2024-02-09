@@ -39,7 +39,7 @@ func composeResponse(ctx context.Context, args model.SearchReq, responses pipe.R
 		pres.CTAURL, _ = d["cta_url"].(string)
 		pres.ImageURL, _ = d["image_url"].(string)
 		pres.Price, _ = d["price"].(float64)
-		pres.Category, _ = d["category"].(string)
+		pres.Catalog, _ = d["catalog"].(string)
 		productListResp = append(productListResp, pres)
 	}
 

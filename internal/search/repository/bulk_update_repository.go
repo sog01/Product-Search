@@ -31,8 +31,8 @@ func NewBulkUpdateRepository(cli *elastic.Client) BulkUpdateRepository {
 				if product.ImageURL.String != "" {
 					data["image_url"] = product.ImageURL.String
 				}
-				if product.Category.String != "" {
-					data["category"] = strings.ToLower(product.Category.String)
+				if product.Catalog.String != "" {
+					data["catalog"] = strings.ToLower(product.Catalog.String)
 				}
 				data["updated_at"] = time.Now().UTC()
 				reqs = append(reqs, elastic.NewBulkUpdateRequest().

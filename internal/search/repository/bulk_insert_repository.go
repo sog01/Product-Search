@@ -31,8 +31,8 @@ func NewBulkInsertRepository(cli *elastic.Client) BulkInsertRepository {
 					"created_at": time.Now().UTC(),
 					"updated_at": time.Now().UTC(),
 				}
-				if product.Category.String != "" {
-					data["category"] = strings.ToLower(product.Category.String)
+				if product.Catalog.String != "" {
+					data["catalog"] = strings.ToLower(product.Catalog.String)
 				}
 				reqs = append(reqs, elastic.NewBulkCreateRequest().
 					Index("product_discovery").

@@ -16,7 +16,7 @@ func (r Router) Run() {
 		search.GET("/", r.Search)
 		search.GET("/autocomplete", r.SearchAutocomplete)
 		search.GET("/total", r.SearchTotal)
-		search.GET("/categories", r.SearchCategories)
+		search.GET("/catalogs", r.SearchCatalogs)
 	}
 
 	product := g.Group("/products/bulk")

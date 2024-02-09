@@ -36,14 +36,14 @@ func TestBulkInsertResult(t *testing.T) {
 							Title:    "VGA Graphic Card",
 							CTAURL:   "https://cta_url",
 							ImageURL: "https://image_url",
-							Category: null.StringFrom("computer"),
+							Catalog:  null.StringFrom("computer"),
 							Price:    100,
 						},
 						{
 							Title:    "White Vein",
 							CTAURL:   "https://cta_url",
 							ImageURL: "https://image_url",
-							Category: null.StringFrom("clothes"),
+							Catalog:  null.StringFrom("clothes"),
 							Price:    900000,
 						},
 						{

@@ -14,7 +14,7 @@ type Service interface {
 	Search(ctx context.Context, req model.SearchReq) (model.SearchResponse, error)
 	SearchAutocomplete(ctx context.Context, req model.AutocompleteReq) (model.AutocompleteResp, error)
 	SearchTotal(ctx context.Context, req model.SearchTotalReq) (model.SearchTotalResp, error)
-	SearchCategory(ctx context.Context, req model.SearchCategoryReq) (model.SearchCategoryResp, error)
+	SearchCatalogs(ctx context.Context, req model.SearchCatalogsReq) (model.SearchCatalogsResp, error)
 	BulkInsert(ctx context.Context, req model.BulkInsertReq) (model.BulkInsertResp, error)
 	BulkUpdate(ctx context.Context, req model.BulkUpdateReq) (model.BulkUpdateResp, error)
 }
@@ -36,8 +36,8 @@ func (s SearchService) SearchAutocomplete(ctx context.Context, req model.Autocom
 func (s SearchService) SearchTotal(ctx context.Context, req model.SearchTotalReq) (model.SearchTotalResp, error) {
 	return query.SearchTotal(ctx, req, s.searchTotalRepo)
 }
-func (s SearchService) SearchCategory(ctx context.Context, req model.SearchCategoryReq) (model.SearchCategoryResp, error) {
-	return query.SearchCategory(ctx, req, s.searchCategoryRepo)
+func (s SearchService) SearchCatalogs(ctx context.Context, req model.SearchCatalogsReq) (model.SearchCatalogsResp, error) {
+	return query.SearchCatalogs(ctx, req, s.searchCategoryRepo)
 }
 func (s SearchService) BulkInsert(ctx context.Context, req model.BulkInsertReq) (model.BulkInsertResp, error) {
 	return mutation.BulkInsert(ctx, req, s.bulkInsertRepo)
@@ -50,7 +50,7 @@ func NewService(es *elastic.Client) Service {
 	return SearchService{
 		searchRepo:         repository.NewSearchRepository(es),
 		searchTotalRepo:    repository.NewSearchTotalRepository(es),
-		searchCategoryRepo: repository.NewSearchCategoryRepository(es),
+		searchCategoryRepo: repository.NewSearchCatalogsRepository(es),
 		bulkInsertRepo:     repository.NewBulkInsertRepository(es),
 		bulkUpdateRepo:     repository.NewBulkUpdateRepository(es),
 	}
