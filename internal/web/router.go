@@ -2,6 +2,7 @@ package web
 
 import (
 	"log"
+	"net/http"
 	"text/template"
 
 	"github.com/gin-gonic/gin"
@@ -15,6 +16,7 @@ type Router struct {
 
 func (r Router) Run() {
 	g := gin.Default()
+	g.StaticFS("/static/", http.Dir("./../../web/static"))
 	r.webRouter(g)
 	r.apiRouter(g)
 	g.Run()

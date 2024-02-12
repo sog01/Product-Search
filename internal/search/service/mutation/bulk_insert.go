@@ -3,6 +3,7 @@ package mutation
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"github.com/sog01/pipe"
 	"github.com/sog01/productdiscovery/internal/search/model"
@@ -17,6 +18,7 @@ func BulkInsert(ctx context.Context, req model.BulkInsertReq, repo repository.Bu
 
 	_, err := exec(ctx, req)
 	if err != nil {
+		log.Printf("failed to bulk insert product : %v\n", err)
 		return model.BulkInsertResp{}, err
 	}
 
