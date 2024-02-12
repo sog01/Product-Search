@@ -2,9 +2,7 @@
 
 ![Screenshot from 2024-02-12 22-54-34](https://github.com/sog01/repogen/assets/40876952/575f4290-c6ac-43fb-8fbc-e44357e9d582)
 
-Product search is web application to demonstrate a typicall search features for products.
-
-The feature is still on going development and will update continuosly, so far this project has accomplished features as follows :
+The Product Search is a web application designed to demonstrate typical search features for products. This feature is still undergoing development and will be continuously updated. So far, this project has accomplished the following features:
 
 - [x] Search Autocompletes API
 - [x] Search Results API
