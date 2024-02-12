@@ -3,6 +3,7 @@ package web
 import (
 	"log"
 	"net/http"
+	"os"
 	"text/template"
 
 	"github.com/gin-gonic/gin"
@@ -16,7 +17,7 @@ type Router struct {
 
 func (r Router) Run() {
 	g := gin.Default()
-	g.StaticFS("/static/", http.Dir("./../../web/static"))
+	g.StaticFS("/static/", http.Dir(webP+"/static"))
 	r.webRouter(g)
 	r.apiRouter(g)
 	g.Run()
@@ -51,7 +52,7 @@ func (r Router) apiRouter(g *gin.Engine) {
 }
 
 func NewRouter(searchService service.Service) Router {
-	tt, err := template.ParseGlob("./../../web/templates/*")
+	tt, err := template.ParseGlob(webP + "/templates/*")
 	if err != nil {
 		log.Fatalf("failed to parse templates: %v", err)
 	}
@@ -59,4 +60,15 @@ func NewRouter(searchService service.Service) Router {
 		searchService: searchService,
 		t:             tt,
 	}
+}
+
+var webP = webPath()
+
+func webPath() string {
+	path := "./../../web"
+	_, err := os.Stat(path)
+	if os.IsNotExist(err) {
+		path = "./web"
+	}
+	return path
 }
