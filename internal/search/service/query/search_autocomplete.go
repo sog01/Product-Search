@@ -2,6 +2,7 @@ package query
 
 import (
 	"context"
+	"log"
 
 	"github.com/sog01/pipe"
 	"github.com/sog01/productdiscovery/internal/search/model"
@@ -19,6 +20,7 @@ func SearchAutocomplete(ctx context.Context, req model.AutocompleteReq, repo rep
 		Size: 5,
 	})
 	if err != nil {
+		log.Printf("failed get autocompletes: %v\n", err)
 		return model.AutocompleteResp{}, err
 	}
 
