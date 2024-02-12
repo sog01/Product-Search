@@ -86,9 +86,8 @@
     <div class="row" style="display: flex; justify-items: center;">
       <div class="text-center">
         {{ range .Catalogs }}
-        <button class="btn btn-primary" hx-trigger="click" style="margin-right: 5px;" hx-get="/product/result"
-          hx-include="[name='q']" hx-target="#search-results" value="{{.Catalog}}" name="catalog"
-          role="button">{{.Catalog}}</button>
+        <button class="btn btn-primary" style="margin-right: 5px;" name="catalog" value="{{.Catalog}}" name="catalog"
+          role="button" form="form-submit" onclick="document.getElementById('form-submit').submit();">{{.Catalog}}</button>
         {{end}}
       </div>
     </div>
@@ -107,9 +106,9 @@
             <span style="margin-right: 5px;"><b>SortBy:</b></span>
             <select class="form-select form-select-sm" name="sort_by" aria-label=".form-select-sm example"
               form="form-submit" onchange="document.getElementById('form-submit').submit();">
-              <option selected value="">Choose Sort By</option>
-              <option value="newest">Newest</option>
-              <option value="title">Title</option>
+              <option {{if eq .SortBy "" }} selected {{end}} value="">Choose Sort By</option>
+              <option {{if eq .SortBy "newest" }} selected {{end}} value="newest">Newest</option>
+              <option {{if eq .SortBy "title" }} selected {{end}} value="title">Title</option>
             </select>
           </div>
         </div>
