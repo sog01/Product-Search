@@ -28,15 +28,27 @@ func SearchAutocomplete(ctx context.Context, req model.AutocompleteReq, repo rep
 
 func composeSuggestionResponse(ctx context.Context, args model.SearchReq, responses pipe.Responses) (response any, err error) {
 	result := pipe.Get[map[string]any](responses)
-	suggestions := []string{}
 
+	resp := model.AutocompleteResp{}
 	data, _ := result["data"].([]map[string]any)
-	for _, d := range data {
-		title, _ := d["title"].(string)
-		suggestions = append(suggestions, title)
-	}
+	highlights, _ := result["highlights"].([]map[string][]string)
 
-	return model.AutocompleteResp{
-		Autocompletes: suggestions,
-	}, nil
+	if len(data) == 0 || len(highlights) == 0 {
+		return resp, nil
+	}
+	for i, h := range highlights {
+		if len(h) == 0 {
+			continue
+		}
+		title, _ := data[i]["title"].(string)
+		autocomplete := model.Autocomplete{
+			Title: title,
+		}
+		if len(h["title"]) > 0 {
+			autocomplete.Highlight = h["title"][0]
+		}
+
+		resp.Autocompletes = append(resp.Autocompletes, autocomplete)
+	}
+	return resp, nil
 }

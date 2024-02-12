@@ -35,6 +35,9 @@ func validateBulkUpdateRequest(ctx context.Context, args model.BulkUpdateReq, re
 		if productUpdate.ImageURL.String != "" {
 			notEmpty = true
 		}
+		if productUpdate.Description.String != "" {
+			notEmpty = true
+		}
 		if !notEmpty {
 			return nil, fmt.Errorf("empty product[%d]", i)
 		}

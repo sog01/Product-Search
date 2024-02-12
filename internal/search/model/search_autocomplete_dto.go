@@ -4,6 +4,11 @@ type AutocompleteReq struct {
 	Q string `json:"text"`
 }
 
+type Autocomplete struct {
+	Title     string `json:"title"`
+	Highlight string `json:"highlight"`
+}
+
 type AutocompleteResp struct {
-	Autocompletes []string `json:"autocompletes"`
+	Autocompletes []Autocomplete `json:"autocompletes"`
 }

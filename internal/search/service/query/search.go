@@ -3,6 +3,7 @@ package query
 import (
 	"context"
 	"fmt"
+	"log"
 	"strconv"
 	"strings"
 
@@ -19,6 +20,7 @@ func Search(ctx context.Context, req model.SearchReq, repo repository.SearchRepo
 
 	resp, err := exec(ctx, req)
 	if err != nil {
+		log.Printf("failed searching product: %v\n", err)
 		return model.SearchResponse{}, err
 	}
 
@@ -40,6 +42,7 @@ func composeResponse(ctx context.Context, args model.SearchReq, responses pipe.R
 		pres.ImageURL, _ = d["image_url"].(string)
 		pres.Price, _ = d["price"].(float64)
 		pres.Catalog, _ = d["catalog"].(string)
+		pres.Description, _ = d["description"].(string)
 		productListResp = append(productListResp, pres)
 	}
 

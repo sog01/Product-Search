@@ -2,6 +2,7 @@ package mutation
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/sog01/pipe"
 	"github.com/sog01/productdiscovery/internal/search/model"
@@ -10,6 +11,7 @@ import (
 
 func BulkInsert(ctx context.Context, req model.BulkInsertReq, repo repository.BulkInsertRepository) (model.BulkInsertResp, error) {
 	exec := pipe.PCtx(
+		validateBulkInsertRequest,
 		repo.BulkInsert,
 	)
 
@@ -19,4 +21,19 @@ func BulkInsert(ctx context.Context, req model.BulkInsertReq, repo repository.Bu
 	}
 
 	return model.BulkInsertResp{}, nil
+}
+
+func validateBulkInsertRequest(ctx context.Context, req model.BulkInsertReq, responses pipe.Responses) (response any, err error) {
+	for i, r := range req.ProductSearchInput {
+		if r.Title == "" {
+			return nil, fmt.Errorf("empty title, product[%d]", i)
+		}
+		if r.CTAURL == "" {
+			return nil, fmt.Errorf("empty cta_url, product[%d]", i)
+		}
+		if r.ImageURL == "" {
+			return nil, fmt.Errorf("empty image_url, product[%d]", i)
+		}
+	}
+	return nil, nil
 }

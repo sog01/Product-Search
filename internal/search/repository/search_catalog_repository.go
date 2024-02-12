@@ -17,7 +17,7 @@ func NewSearchCatalogsRepository(cli *elastic.Client) SearchCategoryRepository {
 	return SearchCategoryRepository{
 		GetCategory: func(ctx context.Context, args model.SearchCatalogsReq, responses pipe.Responses) (response any, err error) {
 			aggQ := elastic.NewTermsAggregation().Field("catalog")
-			search := cli.Search("product_discovery")
+			search := cli.Search("product_search")
 			if args.Q != "" {
 				search.Query(elastic.NewMatchQuery("title", args.Q))
 			}

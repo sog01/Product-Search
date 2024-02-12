@@ -1,0 +1,9 @@
+{{ define "product_search_autocomplete" }}
+{{ if .Autocompletes }}
+<div id="searchInputautocomplete-list" class="autocomplete-items">
+    {{ range .Autocompletes }}
+    <div onclick="location.href = `/product?q={{ .Title }}`">{{ .Highlight }}</div>
+    {{ end }}
+</div>
+{{ end }}
+{{ end }}

@@ -6,11 +6,12 @@ import (
 )
 
 type ProductSearchInsert struct {
-	Title    string      `json:"title"`
-	CTAURL   string      `json:"cta_url"`
-	ImageURL string      `json:"image_url"`
-	Price    float64     `json:"price"`
-	Catalog  null.String `json:"catalog"`
+	Title       string      `json:"title"`
+	CTAURL      string      `json:"cta_url"`
+	ImageURL    string      `json:"image_url"`
+	Price       float64     `json:"price"`
+	Catalog     null.String `json:"catalog"`
+	Description null.String `json:"description"`
 }
 
 type ProductSearchInsertResponse struct {

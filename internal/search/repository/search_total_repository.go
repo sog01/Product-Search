@@ -16,12 +16,19 @@ type SearchTotalRepository struct {
 func NewSearchTotalRepository(cli *elastic.Client) SearchTotalRepository {
 	return SearchTotalRepository{
 		CountTotal: func(ctx context.Context, args model.SearchTotalReq, responses pipe.Responses) (response any, err error) {
-			count := cli.Count("product_discovery")
+			count := cli.Count("product_search")
+			queries := []elastic.Query{}
 			if args.Q != "" {
-				count.Query(
-					elastic.NewMatchQuery("title", args.Q),
-				)
+				queries = append(queries, elastic.NewMatchQuery("title", args.Q))
 			}
+			if args.Catalog.String != "" {
+				queries = append(queries, elastic.NewTermQuery("catalog", args.Catalog.String))
+			}
+
+			if len(queries) > 0 {
+				count.Query(elastic.NewBoolQuery().Filter(queries...))
+			}
+
 			total, err := count.Do(ctx)
 			if err != nil {
 				return nil, fmt.Errorf("failed count total product: %v", err)

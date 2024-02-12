@@ -18,29 +18,27 @@ type SortBy int
 
 const (
 	Newest SortBy = iota + 1
-	HighestPrice
-	LowestPrice
+	Title
 )
 
 func NewSort(s string) SortBy {
 	switch strings.ToLower(s) {
 	case "newest":
 		return Newest
-	case "highest_price":
-		return HighestPrice
-	case "lowest_price":
-		return LowestPrice
+	case "title":
+		return Title
 	}
 	return 0
 }
 
 type ProductSearchResponse struct {
-	Id       string  `json:"id"`
-	Title    string  `json:"title"`
-	CTAURL   string  `json:"cta_url"`
-	ImageURL string  `json:"image_url"`
-	Price    float64 `json:"price"`
-	Catalog  string  `json:"catalog"`
+	Id          string  `json:"id"`
+	Title       string  `json:"title"`
+	Description string  `json:"description"`
+	CTAURL      string  `json:"cta_url"`
+	ImageURL    string  `json:"image_url"`
+	Price       float64 `json:"price"`
+	Catalog     string  `json:"catalog"`
 }
 
 type SearchResponse struct {

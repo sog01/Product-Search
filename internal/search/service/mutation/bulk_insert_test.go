@@ -75,6 +75,6 @@ func createIndices() *elastic.Client {
 		panic(err)
 	}
 
-	indices.CreateProductDiscovery(ec)
+	indices.CreateProductSearch(ec)
 	return ec
 }

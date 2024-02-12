@@ -34,8 +34,11 @@ func NewBulkInsertRepository(cli *elastic.Client) BulkInsertRepository {
 				if product.Catalog.String != "" {
 					data["catalog"] = strings.ToLower(product.Catalog.String)
 				}
+				if product.Description.String != "" {
+					data["description"] = product.Description.String
+				}
 				reqs = append(reqs, elastic.NewBulkCreateRequest().
-					Index("product_discovery").
+					Index("product_search").
 					Doc(data).
 					Id(id),
 				)

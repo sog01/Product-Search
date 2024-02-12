@@ -32,7 +32,7 @@ func TestSearchResult(t *testing.T) {
 				ctx: context.TODO(),
 				req: model.SearchReq{
 					Size:   10,
-					SortBy: model.LowestPrice,
+					SortBy: model.Title,
 				},
 				repo: repository.NewSearchRepository(ec),
 			},
@@ -55,6 +55,6 @@ func createIndices() *elastic.Client {
 		panic(err)
 	}
 
-	indices.CreateProductDiscovery(ec)
+	indices.CreateProductSearch(ec)
 	return ec
 }

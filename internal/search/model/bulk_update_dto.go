@@ -6,12 +6,13 @@ import (
 )
 
 type ProductSearchUpdate struct {
-	Id       uuid.UUID   `json:"id"`
-	Title    null.String `json:"title"`
-	CTAURL   null.String `json:"cta_url"`
-	ImageURL null.String `json:"image_url"`
-	Price    null.Float  `json:"price"`
-	Catalog  null.String `json:"catalog"`
+	Id          uuid.UUID   `json:"id"`
+	Title       null.String `json:"title"`
+	Description null.String `json:"description"`
+	CTAURL      null.String `json:"cta_url"`
+	ImageURL    null.String `json:"image_url"`
+	Price       null.Float  `json:"price"`
+	Catalog     null.String `json:"catalog"`
 }
 
 type ProductSearchUpdateResponse struct {

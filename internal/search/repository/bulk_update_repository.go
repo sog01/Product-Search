@@ -25,6 +25,9 @@ func NewBulkUpdateRepository(cli *elastic.Client) BulkUpdateRepository {
 				if product.Title.String != "" {
 					data["title"] = product.Title.String
 				}
+				if product.Description.String != "" {
+					data["description"] = product.Description.String
+				}
 				if product.CTAURL.String != "" {
 					data["cta_url"] = product.CTAURL.String
 				}
@@ -36,7 +39,7 @@ func NewBulkUpdateRepository(cli *elastic.Client) BulkUpdateRepository {
 				}
 				data["updated_at"] = time.Now().UTC()
 				reqs = append(reqs, elastic.NewBulkUpdateRequest().
-					Index("product_discovery").
+					Index("product_search").
 					Doc(data).
 					Id(id),
 				)
