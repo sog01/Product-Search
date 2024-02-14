@@ -1,7 +1,36 @@
-{{ define "product_search_result" }}
-<div id="search-results">
-    <div class="row row-cols-1 row-cols-md-5 g-4" id="product-search-result">
-        {{ template "product_search_cards" .}}
+{{ define "product_search_result" }} {{ range .Products }}
+<div class="col" id="{{.Id}}">
+  <div class="card text">
+    <img
+      class="card-img-top"
+      src="{{.ImageURL}}"
+      style="object-fit: contain; height: max(10rem, 30vh)"
+      alt="Card image cap"
+    />
+    <div class="card-body">
+      <h5 class="card-title">{{.Title}}</h5>
+      <p class="card-text">{{.Description}}</p>
+      <a
+        class="btn btn-primary btn-block"
+        href="{{.CTAURL}}"
+        target="_blank"
+        rel="noopener noreferrer"
+        >See More</a
+      >
     </div>
+  </div>
 </div>
-{{ end }}
+{{ end }} {{ if .HasMoreData }}
+<div class="text-center" style="width: 100%" id="last-product-result">
+  <button
+    class="btn btn-primary"
+    hx-get="/product/result?next_cursor={{ .NextCursor }}&q={{ .Q }}&sort_by={{ .SortBy }}&catalog={{ .Catalog }}"
+    hx-trigger="click"
+    hx-target="#last-product-result"
+    style="margin: 10px"
+    hx-swap="outerHTML"
+  >
+    Load More
+  </button>
+</div>
+{{ end }} {{ end }}

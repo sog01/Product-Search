@@ -33,7 +33,6 @@ func (r Router) webRouter(g *gin.Engine) {
 		searchAPI.GET("/", r.Index)
 		searchAPI.GET("/product", r.SearchProducts)
 		searchAPI.GET("/product/result", r.SearchProductsResult)
-		searchAPI.GET("/product/cards", r.SearchProductsCards)
 		searchAPI.GET("/product/autocomplete", r.SearchProductsAutocomplete)
 		searchAPI.GET("/catalog", r.Catalog)
 	}

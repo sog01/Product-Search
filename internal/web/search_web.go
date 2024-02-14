@@ -21,10 +21,6 @@ func (r Router) SearchProductsResult(c *gin.Context) {
 	r.renderSearchResult(c, "product_search_result")
 }
 
-func (r Router) SearchProductsCards(c *gin.Context) {
-	r.renderSearchResult(c, "product_search_cards")
-}
-
 func (r Router) SearchProductsAutocomplete(c *gin.Context) {
 	resp, err := r.searchService.SearchAutocomplete(c.Request.Context(), model.AutocompleteReq{
 		Q: c.Query("q"),
