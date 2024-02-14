@@ -10,7 +10,7 @@ import (
 )
 
 func (r Router) Index(c *gin.Context) {
-	r.indexTemplates.ExecuteTemplate(c.Writer, "index", nil)
+	r.templates.ExecuteTemplate(c.Writer, "index", nil)
 }
 
 func (r Router) SearchProducts(c *gin.Context) {
@@ -31,8 +31,17 @@ func (r Router) SearchProductsAutocomplete(c *gin.Context) {
 		})
 		return
 	}
-	r.productTemplates.ExecuteTemplate(c.Writer, "autocompletes", map[string]any{
-		"Autocompletes": resp.Autocompletes,
+
+	autocompletes := []map[string]any{}
+	for _, autocomplete := range resp.Autocompletes {
+		autocompletes = append(autocompletes, map[string]any{
+			"Highlight": autocomplete.Highlight,
+			"Href":      "/product?q=" + autocomplete.Title,
+		})
+	}
+
+	r.templates.ExecuteTemplate(c.Writer, "autocompletes", map[string]any{
+		"Autocompletes": autocompletes,
 		"NewPage":       c.Query("newPage"),
 	})
 }
@@ -90,7 +99,7 @@ func (r Router) renderSearchResult(c *gin.Context, templateName string) {
 	}
 
 	hasMoreData = productSize == sizeReq
-	r.productTemplates.ExecuteTemplate(c.Writer, templateName, map[string]any{
+	r.templates.ExecuteTemplate(c.Writer, templateName, map[string]any{
 		"Q":            c.Query("q"),
 		"SortBy":       c.Query("sort_by"),
 		"Catalog":      c.Query("catalog"),
@@ -104,5 +113,5 @@ func (r Router) renderSearchResult(c *gin.Context, templateName string) {
 }
 
 func (r Router) Catalog(c *gin.Context) {
-	r.catalogTemplates.ExecuteTemplate(c.Writer, "catalog", nil)
+	r.templates.ExecuteTemplate(c.Writer, "catalog", nil)
 }

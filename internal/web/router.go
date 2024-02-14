@@ -1,9 +1,10 @@
 package web
 
 import (
-	"log"
+	"io/fs"
 	"net/http"
 	"os"
+	"path/filepath"
 	"text/template"
 
 	"github.com/gin-gonic/gin"
@@ -13,10 +14,11 @@ import (
 )
 
 type Router struct {
-	searchService    service.Service
-	indexTemplates   *template.Template
-	productTemplates *template.Template
-	catalogTemplates *template.Template
+	searchService service.Service
+	// indexTemplates   *template.Template
+	// productTemplates *template.Template
+	// catalogTemplates *template.Template
+	templates *template.Template
 }
 
 func (r Router) Run() {
@@ -57,23 +59,17 @@ func (r Router) apiRouter(g *gin.Engine) {
 }
 
 func NewRouter(searchService service.Service) Router {
-	indexTemplates, err := template.ParseGlob(webP + "/templates/index.html")
-	if err != nil {
-		log.Fatalf("failed to parse index templates: %v", err)
-	}
-	productTemplates, err := template.ParseGlob(webP + "/templates/product/*")
-	if err != nil {
-		log.Fatalf("failed to parse product templates: %v", err)
-	}
-	catalogTemplates, err := template.ParseGlob(webP + "/templates/catalog.html")
-	if err != nil {
-		log.Fatalf("failed to parse product templates: %v", err)
-	}
+	templatesFiles := []string{}
+	filepath.Walk(webP+"/templates", func(path string, info fs.FileInfo, err error) error {
+		if info.IsDir() {
+			return nil
+		}
+		templatesFiles = append(templatesFiles, path)
+		return nil
+	})
 	return Router{
-		indexTemplates:   indexTemplates,
-		searchService:    searchService,
-		productTemplates: productTemplates,
-		catalogTemplates: catalogTemplates,
+		searchService: searchService,
+		templates:     template.Must(template.ParseFiles(templatesFiles...)),
 	}
 }
 
