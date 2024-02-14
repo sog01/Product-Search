@@ -4,10 +4,17 @@ import (
 	"log"
 
 	"github.com/olivere/elastic/v7"
+	_ "github.com/sog01/productdiscovery/docs"
 	"github.com/sog01/productdiscovery/indices"
 	"github.com/sog01/productdiscovery/internal/search/service"
 	"github.com/sog01/productdiscovery/internal/web"
 )
+
+// @title           Product Search API
+// @description     This is a product search API swagger documentation.
+
+// @host      localhost:8080
+// @BasePath  /api
 
 func main() {
 	es, err := elastic.NewClient(

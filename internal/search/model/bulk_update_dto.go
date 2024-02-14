@@ -6,13 +6,13 @@ import (
 )
 
 type ProductSearchUpdate struct {
-	Id          uuid.UUID   `json:"id"`
-	Title       null.String `json:"title"`
-	Description null.String `json:"description"`
-	CTAURL      null.String `json:"cta_url"`
-	ImageURL    null.String `json:"image_url"`
-	Price       null.Float  `json:"price"`
-	Catalog     null.String `json:"catalog"`
+	Id          uuid.UUID   `json:"id" swaggertype:"string"`
+	Title       null.String `json:"title" swaggertype:"string"`
+	Description null.String `json:"description" swaggertype:"string"`
+	CTAURL      null.String `json:"cta_url" swaggertype:"string"`
+	ImageURL    null.String `json:"image_url" swaggertype:"string"`
+	Price       null.Float  `json:"price" swaggertype:"number"`
+	Catalog     null.String `json:"catalog" swaggertype:"string"`
 }
 
 type ProductSearchUpdateResponse struct {

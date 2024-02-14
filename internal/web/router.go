@@ -8,6 +8,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/sog01/productdiscovery/internal/search/service"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 type Router struct {
@@ -20,6 +22,8 @@ func (r Router) Run() {
 	g.StaticFS("/static/", http.Dir(webP+"/static"))
 	r.webRouter(g)
 	r.apiRouter(g)
+
+	g.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	g.Run()
 }
 
