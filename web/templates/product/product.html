@@ -50,7 +50,7 @@
               class="form-control" aria-label="Search" aria-describedby="basic-addon1" form="form-submit"
               value="{{.Q}}" />
             <div id="searchInput-autocomplete-result">
-              {{ template "product_search_autocomplete" .}}
+              {{ template "autocompletes" .}}
             </div>
           </div>
         </div>
@@ -94,7 +94,7 @@
     <br>
     <div id="search-results">
       <div class="row row-cols-1 row-cols-md-5 g-4" id="product-search-result">
-        {{ template "product_search_result" .}}
+        {{ template "search_result" .}}
       </div>
     </div>
   </div>

@@ -13,8 +13,10 @@ import (
 )
 
 type Router struct {
-	searchService service.Service
-	t             *template.Template
+	searchService    service.Service
+	indexTemplates   *template.Template
+	productTemplates *template.Template
+	catalogTemplates *template.Template
 }
 
 func (r Router) Run() {
@@ -55,13 +57,23 @@ func (r Router) apiRouter(g *gin.Engine) {
 }
 
 func NewRouter(searchService service.Service) Router {
-	tt, err := template.ParseGlob(webP + "/templates/*")
+	indexTemplates, err := template.ParseGlob(webP + "/templates/index.html")
 	if err != nil {
-		log.Fatalf("failed to parse templates: %v", err)
+		log.Fatalf("failed to parse index templates: %v", err)
+	}
+	productTemplates, err := template.ParseGlob(webP + "/templates/product/*")
+	if err != nil {
+		log.Fatalf("failed to parse product templates: %v", err)
+	}
+	catalogTemplates, err := template.ParseGlob(webP + "/templates/catalog.html")
+	if err != nil {
+		log.Fatalf("failed to parse product templates: %v", err)
 	}
 	return Router{
-		searchService: searchService,
-		t:             tt,
+		indexTemplates:   indexTemplates,
+		searchService:    searchService,
+		productTemplates: productTemplates,
+		catalogTemplates: catalogTemplates,
 	}
 }
 

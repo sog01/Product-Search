@@ -24,9 +24,7 @@
                         <input id="searchInput" type="text" name="q" hx-get="/product/autocomplete"
                             hx-trigger="input changed" hx-target="#searchInput-autocomplete-result" placeholder="Search"
                             class="form-control" aria-label="Search" aria-describedby="basic-addon1" />
-                        <div id="searchInput-autocomplete-result">
-                            {{ template "product_search_autocomplete" .}}
-                        </div>
+                        <div id="searchInput-autocomplete-result"></div>
                     </div>
                 </form>
                 <div class="text-center">
@@ -45,7 +43,7 @@
     <script>
         feather.replace()        
     </script>
-   <script src="/static/autocomplete.js"></script>
+    <script src="/static/autocomplete.js"></script>
 </body>
 
 </html>
