@@ -14,11 +14,11 @@ func (r Router) Index(c *gin.Context) {
 }
 
 func (r Router) SearchProducts(c *gin.Context) {
-	r.renderSearchResult(c, "product")
+	r.renderProductSearchResult(c, "layout")
 }
 
 func (r Router) SearchProductsResult(c *gin.Context) {
-	r.renderSearchResult(c, "search_result")
+	r.renderProductSearchResult(c, "search_result")
 }
 
 func (r Router) SearchProductsAutocomplete(c *gin.Context) {
@@ -46,7 +46,7 @@ func (r Router) SearchProductsAutocomplete(c *gin.Context) {
 	})
 }
 
-func (r Router) renderSearchResult(c *gin.Context, templateName string) {
+func (r Router) renderProductSearchResult(c *gin.Context, templateName string) {
 	var (
 		productSearchResult model.SearchResponse
 		catalogSearchResult model.SearchCatalogsResp
@@ -100,18 +100,24 @@ func (r Router) renderSearchResult(c *gin.Context, templateName string) {
 
 	hasMoreData = productSize == sizeReq
 	r.templates.ExecuteTemplate(c.Writer, templateName, map[string]any{
-		"Q":            c.Query("q"),
-		"SortBy":       c.Query("sort_by"),
-		"Catalog":      c.Query("catalog"),
-		"Products":     productSearchResult.Products,
-		"Catalogs":     catalogSearchResult.Catalogs,
-		"NextCursor":   productSearchResult.NextCursor,
-		"ProductSize":  productSize,
-		"TotalProduct": totalProduct,
-		"HasMoreData":  hasMoreData,
+		"Page":             "Product",
+		"Q":                c.Query("q"),
+		"SortBy":           c.Query("sort_by"),
+		"Catalog":          c.Query("catalog"),
+		"AutocompleteURL":  "/product/autocomplete",
+		"WithAutocomplete": true,
+		"Products":         productSearchResult.Products,
+		"Catalogs":         catalogSearchResult.Catalogs,
+		"NextCursor":       productSearchResult.NextCursor,
+		"ProductSize":      productSize,
+		"TotalProduct":     totalProduct,
+		"HasMoreData":      hasMoreData,
 	})
 }
 
 func (r Router) Catalog(c *gin.Context) {
-	r.templates.ExecuteTemplate(c.Writer, "catalog", nil)
+	r.templates.ExecuteTemplate(c.Writer, "layout", map[string]any{
+		"Page": "Catalog",
+		"Q":    c.Query("q"),
+	})
 }
