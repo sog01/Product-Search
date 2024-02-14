@@ -15,6 +15,7 @@ type Service interface {
 	SearchAutocomplete(ctx context.Context, req model.AutocompleteReq) (model.AutocompleteResp, error)
 	SearchTotal(ctx context.Context, req model.SearchTotalReq) (model.SearchTotalResp, error)
 	SearchCatalogs(ctx context.Context, req model.SearchCatalogsReq) (model.SearchCatalogsResp, error)
+	SearchTopProductCatalogs(ctx context.Context, req model.SearchTopProductCatalogReq) (model.SearchTopProductCatalogResp, error)
 	BulkInsert(ctx context.Context, req model.BulkInsertReq) (model.BulkInsertResp, error)
 	BulkUpdate(ctx context.Context, req model.BulkUpdateReq) (model.BulkUpdateResp, error)
 }
@@ -38,6 +39,9 @@ func (s SearchService) SearchTotal(ctx context.Context, req model.SearchTotalReq
 }
 func (s SearchService) SearchCatalogs(ctx context.Context, req model.SearchCatalogsReq) (model.SearchCatalogsResp, error) {
 	return query.SearchCatalogs(ctx, req, s.searchCategoryRepo)
+}
+func (s SearchService) SearchTopProductCatalogs(ctx context.Context, req model.SearchTopProductCatalogReq) (model.SearchTopProductCatalogResp, error) {
+	return query.SearchTopProductCatalog(ctx, req, s.searchRepo)
 }
 func (s SearchService) BulkInsert(ctx context.Context, req model.BulkInsertReq) (model.BulkInsertResp, error) {
 	return mutation.BulkInsert(ctx, req, s.bulkInsertRepo)

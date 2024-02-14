@@ -29,15 +29,17 @@
               <a class="nav-link {{if eq .Page `Catalog` }}active{{end}}" aria-current="page" href="/catalog">Catalog</a>
             </li>
           </ul>
+          {{if eq .Page `Product` }}
           <form class="d-flex">
             <a class="btn btn-outline-primary" style="margin-right: 5px;" href="#" role="button">Share</a>
           </form>
+          {{end}}
         </div>
       </div>
     </nav>
     <div style="background-color: white;">
       <br>
-      {{if .WithAutocomplete }}
+      {{if .WithSearchInput }}
       <div class="container">
         <div class="d-flex justify-content-center">
           <div class="input-group mb-3 autocomplete" style="max-width: 500px;">
@@ -72,7 +74,9 @@
   <script>
     feather.replace()
   </script>
+  {{if .WithSearchInput }}
   <script src="/static/autocomplete.js"></script>
+  {{end}}
 </body>
 
 </html>

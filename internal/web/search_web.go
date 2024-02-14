@@ -100,24 +100,56 @@ func (r Router) renderProductSearchResult(c *gin.Context, templateName string) {
 
 	hasMoreData = productSize == sizeReq
 	r.templates.ExecuteTemplate(c.Writer, templateName, map[string]any{
-		"Page":             "Product",
-		"Q":                c.Query("q"),
-		"SortBy":           c.Query("sort_by"),
-		"Catalog":          c.Query("catalog"),
-		"AutocompleteURL":  "/product/autocomplete",
-		"WithAutocomplete": true,
-		"Products":         productSearchResult.Products,
-		"Catalogs":         catalogSearchResult.Catalogs,
-		"NextCursor":       productSearchResult.NextCursor,
-		"ProductSize":      productSize,
-		"TotalProduct":     totalProduct,
-		"HasMoreData":      hasMoreData,
+		"Page":            "Product",
+		"Q":               c.Query("q"),
+		"SortBy":          c.Query("sort_by"),
+		"Catalog":         c.Query("catalog"),
+		"AutocompleteURL": "/product/autocomplete",
+		"WithSearchInput": true,
+		"Products":        productSearchResult.Products,
+		"Catalogs":        catalogSearchResult.Catalogs,
+		"NextCursor":      productSearchResult.NextCursor,
+		"ProductSize":     productSize,
+		"TotalProduct":    totalProduct,
+		"HasMoreData":     hasMoreData,
 	})
 }
 
 func (r Router) Catalog(c *gin.Context) {
+	var (
+		catalogs           model.SearchCatalogsResp
+		topProductCatalogs model.SearchTopProductCatalogResp
+	)
+	exec := pipe.P(
+		func(any, pipe.Responses) (response any, err error) {
+			resp, err := r.searchService.SearchCatalogs(c.Request.Context(), model.SearchCatalogsReq{})
+			catalogs = resp
+			return nil, err
+		},
+		func(any, pipe.Responses) (response any, err error) {
+			catalogStrings := []string{}
+			for _, catalog := range catalogs.Catalogs {
+				catalogStrings = append(catalogStrings, catalog.Catalog)
+			}
+			resp, err := r.searchService.SearchTopProductCatalogs(c.Request.Context(), model.SearchTopProductCatalogReq{
+				Catalogs: catalogStrings,
+			})
+			topProductCatalogs = resp
+			return nil, err
+		},
+	)
+
+	_, err := exec(nil)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, map[string]any{
+			"error": err.Error(),
+		})
+		return
+	}
+
 	r.templates.ExecuteTemplate(c.Writer, "layout", map[string]any{
-		"Page": "Catalog",
-		"Q":    c.Query("q"),
+		"Page":     "Catalog",
+		"Q":        c.Query("q"),
+		"Catalogs": topProductCatalogs.TopProductCatalogs,
 	})
 }

@@ -1,21 +1,19 @@
 {{define "catalog"}}
 <div class="container">
-  <span>
-    <p>Showing 3 catalog over 100</p>
-  </span>
   <div>
     <div class="row row-cols-1 row-cols-md-3 g-4">
+      {{range $key, $value := .Catalogs }}
       <div class="col">
         <div class="card text">
           <div
-            id="carouselExampleIndicators"
+            id="carousel{{$key}}"
             class="carousel carousel-dark slide"
             data-bs-ride="carousel"
           >
             <div class="carousel-indicators">
               <button
                 type="button"
-                data-bs-target="#carouselExampleIndicators"
+                data-bs-target="#carousel{{$key}}"
                 data-bs-slide-to="0"
                 class="active"
                 aria-current="true"
@@ -23,47 +21,33 @@
               ></button>
               <button
                 type="button"
-                data-bs-target="#carouselExampleIndicators"
+                data-bs-target="#carousel{{$key}}"
                 data-bs-slide-to="1"
                 aria-label="Slide 2"
               ></button>
               <button
                 type="button"
-                data-bs-target="#carouselExampleIndicators"
+                data-bs-target="#carousel{{$key}}"
                 data-bs-slide-to="2"
                 aria-label="Slide 3"
               ></button>
             </div>
             <div class="carousel-inner">
-              <div class="carousel-item active">
+              {{ range $key, $val := $value.Data }}
+              <div class="carousel-item {{if eq $key 0}}active{{end}}">
                 <img
                   class="card-img-top"
-                  src="https://m.media-amazon.com/images/I/71NxciJivjL._AC_SX679_.jpg"
+                  src="{{.ImageURL}}"
                   style="object-fit: contain; height: max(10rem, 30vh)"
                   alt="Card image cap"
                 />
               </div>
-              <div class="carousel-item">
-                <img
-                  class="card-img-top"
-                  src="https://m.media-amazon.com/images/I/71NxciJivjL._AC_SX679_.jpg"
-                  style="object-fit: contain; height: max(10rem, 30vh)"
-                  alt="Card image cap"
-                />
-              </div>
-              <div class="carousel-item">
-                <img
-                  class="card-img-top"
-                  src="https://m.media-amazon.com/images/I/71NxciJivjL._AC_SX679_.jpg"
-                  style="object-fit: contain; height: max(10rem, 30vh)"
-                  alt="Card image cap"
-                />
-              </div>
+              {{ end }}
             </div>
             <button
               class="carousel-control-prev"
               type="button"
-              data-bs-target="#carouselExampleIndicators"
+              data-bs-target="#carousel{{$key}}"
               data-bs-slide="prev"
             >
               <span
@@ -75,7 +59,7 @@
             <button
               class="carousel-control-next"
               type="button"
-              data-bs-target="#carouselExampleIndicators"
+              data-bs-target="#carousel{{$key}}"
               data-bs-slide="next"
             >
               <span
@@ -86,39 +70,17 @@
             </button>
           </div>
           <div class="card-body">
-            <h5 class="card-title">Computer</h5>
-            <a class="btn btn-primary btn-block">See More</a>
+            <h5 class="card-title">{{ $value.Catalog }}</h5>
+            <a
+              class="btn btn-primary btn-block"
+              href="/product?catalog={{$value.Catalog}}"
+              >See More</a
+            >
+            <a class="btn btn-outline-primary btn-block" href="#">Share</a>
           </div>
         </div>
       </div>
-      <div class="col">
-        <div class="card text">
-          <img
-            class="card-img-top"
-            src="https://m.media-amazon.com/images/I/71NxciJivjL._AC_SX679_.jpg"
-            style="object-fit: contain; height: max(10rem, 30vh)"
-            alt="Card image cap"
-          />
-          <div class="card-body">
-            <h5 class="card-title">Fashion</h5>
-            <a class="btn btn-primary btn-block">See More</a>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card text">
-          <img
-            class="card-img-top"
-            src="https://m.media-amazon.com/images/I/71NxciJivjL._AC_SX679_.jpg"
-            style="object-fit: contain; height: max(10rem, 30vh)"
-            alt="Card image cap"
-          />
-          <div class="card-body">
-            <h5 class="card-title">Books</h5>
-            <a class="btn btn-primary btn-block">See More</a>
-          </div>
-        </div>
-      </div>
+      {{ end }}
     </div>
   </div>
 </div>
