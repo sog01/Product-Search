@@ -15,10 +15,7 @@ import (
 
 type Router struct {
 	searchService service.Service
-	// indexTemplates   *template.Template
-	// productTemplates *template.Template
-	// catalogTemplates *template.Template
-	templates *template.Template
+	templates     *template.Template
 }
 
 func (r Router) Run() {

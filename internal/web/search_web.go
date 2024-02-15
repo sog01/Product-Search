@@ -14,7 +14,7 @@ func (r Router) Index(c *gin.Context) {
 }
 
 func (r Router) SearchProducts(c *gin.Context) {
-	r.renderProductSearchResult(c, "layout")
+	r.renderProductSearchResult(c, "product")
 }
 
 func (r Router) SearchProductsResult(c *gin.Context) {
@@ -147,7 +147,7 @@ func (r Router) Catalog(c *gin.Context) {
 		return
 	}
 
-	r.templates.ExecuteTemplate(c.Writer, "layout", map[string]any{
+	r.templates.ExecuteTemplate(c.Writer, "catalog", map[string]any{
 		"Page":     "Catalog",
 		"Q":        c.Query("q"),
 		"Catalogs": topProductCatalogs.TopProductCatalogs,

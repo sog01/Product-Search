@@ -1,4 +1,5 @@
 {{define "product"}}
+{{template "header" .}}
 <form action="/product" id="form-submit" method="get">
 </form>
 <div class="row" style="display: flex; justify-items: center;">
@@ -41,4 +42,5 @@
   </div>
 </div>
 </html>
+{{template "footer" .}}
 {{end}}
