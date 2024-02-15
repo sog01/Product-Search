@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sog01/pipe"
 	"github.com/sog01/productdiscovery/internal/search/model"
+	shortenermodel "github.com/sog01/productdiscovery/internal/shortener/model"
 	"gopkg.in/guregu/null.v4"
 )
 
@@ -152,4 +153,17 @@ func (r Router) Catalog(c *gin.Context) {
 		"Q":        c.Query("q"),
 		"Catalogs": topProductCatalogs.TopProductCatalogs,
 	})
+}
+
+func (r Router) RedirectShortener(c *gin.Context) {
+	realUrl, err := r.shortenerService.GetShortener(c.Request.Context(), shortenermodel.GetShortenerReq{
+		Slug: c.Param("slug"),
+	})
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, map[string]any{
+			"error": err.Error(),
+		})
+		return
+	}
+	http.Redirect(c.Writer, c.Request, realUrl.RealURL, http.StatusSeeOther)
 }
