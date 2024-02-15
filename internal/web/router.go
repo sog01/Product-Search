@@ -57,6 +57,7 @@ func (r Router) apiRouter(g *gin.Engine) {
 	}
 	shortenerAPI := api.Group("/shortener")
 	{
+		shortenerAPI.GET("/", r.GetShortener)
 		shortenerAPI.POST("/", r.CreateShortener)
 	}
 }

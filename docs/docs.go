@@ -232,6 +232,36 @@ const docTemplate = `{
             }
         },
         "/shortener": {
+            "get": {
+                "description": "GetShortener get real url from give slug",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Shortener API"
+                ],
+                "summary": "GetShortener get real url from give slug",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "slug",
+                        "name": "slug",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.GetShortenerResp"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "CreateShortener create url shortener",
                 "consumes": [
@@ -329,6 +359,14 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "slug": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.GetShortenerResp": {
+            "type": "object",
+            "properties": {
+                "real_url": {
                     "type": "string"
                 }
             }

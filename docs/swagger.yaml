@@ -42,6 +42,11 @@ definitions:
       slug:
         type: string
     type: object
+  model.GetShortenerResp:
+    properties:
+      real_url:
+        type: string
+    type: object
   model.ProductSearchCatalogs:
     properties:
       catalog:
@@ -266,6 +271,26 @@ paths:
       tags:
       - Search API
   /shortener:
+    get:
+      consumes:
+      - application/json
+      description: GetShortener get real url from give slug
+      parameters:
+      - description: slug
+        in: query
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GetShortenerResp'
+      summary: GetShortener get real url from give slug
+      tags:
+      - Shortener API
     post:
       consumes:
       - application/json

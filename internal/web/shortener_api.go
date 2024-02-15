@@ -34,3 +34,26 @@ func (api Router) CreateShortener(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, resp)
 }
+
+// GetShortener get real url from give slug
+// @Summary      GetShortener get real url from give slug
+// @Description  GetShortener get real url from give slug
+// @Tags         Shortener API
+// @Accept       json
+// @Produce      json
+// @Param        slug  query  string  true "slug"
+// @Success      200  {object}  model.GetShortenerResp
+// @Router       /shortener [get]
+func (api Router) GetShortener(c *gin.Context) {
+	r := model.GetShortenerReq{
+		Slug: c.Query("slug"),
+	}
+	resp, err := api.shortenerService.GetShortener(c.Request.Context(), r)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, map[string]any{
+			"error": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, resp)
+}
