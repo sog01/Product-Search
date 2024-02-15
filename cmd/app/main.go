@@ -24,7 +24,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed create elasticsearch client: %v", err)
 	}
-	indices.CreateProductSearch(es)
+	indices.Create(es)
 	search := service.NewService(es)
 	router := web.NewRouter(search)
 	router.Run()

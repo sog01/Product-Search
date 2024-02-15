@@ -8,14 +8,15 @@ The Product Search is a web application designed to demonstrate typical search f
 - [x] Search Results API
 - [x] Search Order By and Filter by Catalog API
 - [x] Product Search UI
+- [x] Product and Catalog CRU API
+- [x] Catalog UI
 
 And for the on-going development would be:
 
-- [ ] Product and Catalog CRU
-- [ ] Catalog UI
 - [ ] URL Shortener for Share Catalog
-- [ ] Product Tagging
+- [ ] Product Tagging API
 - [ ] User Management
+- [ ] Admin UI
 
 ## Programming Stacks
 
