@@ -32,6 +32,16 @@ definitions:
     type: object
   model.BulkUpdateResp:
     type: object
+  model.CreateShortenerReq:
+    properties:
+      real_url:
+        type: string
+    type: object
+  model.CreateShortenerResp:
+    properties:
+      slug:
+        type: string
+    type: object
   model.ProductSearchCatalogs:
     properties:
       catalog:
@@ -255,4 +265,26 @@ paths:
       summary: Search product total from given q
       tags:
       - Search API
+  /shortener:
+    post:
+      consumes:
+      - application/json
+      description: CreateShortener create url shortener
+      parameters:
+      - description: request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.CreateShortenerReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.CreateShortenerResp'
+      summary: CreateShortener create url shortener
+      tags:
+      - Shortener API
 swagger: "2.0"

@@ -7,6 +7,7 @@ import (
 	_ "github.com/sog01/productdiscovery/docs"
 	"github.com/sog01/productdiscovery/indices"
 	"github.com/sog01/productdiscovery/internal/search/service"
+	shortenersvc "github.com/sog01/productdiscovery/internal/shortener/service"
 	"github.com/sog01/productdiscovery/internal/web"
 )
 
@@ -26,6 +27,7 @@ func main() {
 	}
 	indices.Create(es)
 	search := service.NewService(es)
-	router := web.NewRouter(search)
+	shortener := shortenersvc.NewService(es)
+	router := web.NewRouter(search, shortener)
 	router.Run()
 }

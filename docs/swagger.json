@@ -223,6 +223,40 @@
                     }
                 }
             }
+        },
+        "/shortener": {
+            "post": {
+                "description": "CreateShortener create url shortener",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Shortener API"
+                ],
+                "summary": "CreateShortener create url shortener",
+                "parameters": [
+                    {
+                        "description": "request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.CreateShortenerReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.CreateShortenerResp"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -275,6 +309,22 @@
         },
         "model.BulkUpdateResp": {
             "type": "object"
+        },
+        "model.CreateShortenerReq": {
+            "type": "object",
+            "properties": {
+                "real_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.CreateShortenerResp": {
+            "type": "object",
+            "properties": {
+                "slug": {
+                    "type": "string"
+                }
+            }
         },
         "model.ProductSearchCatalogs": {
             "type": "object",

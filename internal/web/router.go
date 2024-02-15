@@ -9,13 +9,15 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/sog01/productdiscovery/internal/search/service"
+	shortenersvc "github.com/sog01/productdiscovery/internal/shortener/service"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 type Router struct {
-	searchService service.Service
-	templates     *template.Template
+	searchService    service.Service
+	shortenerService shortenersvc.Service
+	templates        *template.Template
 }
 
 func (r Router) Run() {
@@ -53,9 +55,14 @@ func (r Router) apiRouter(g *gin.Engine) {
 		productAPI.POST("/", r.BulkInsert)
 		productAPI.POST("/update", r.BulkUpdate)
 	}
+	shortenerAPI := api.Group("/shortener")
+	{
+		shortenerAPI.POST("/", r.CreateShortener)
+	}
 }
 
-func NewRouter(searchService service.Service) Router {
+func NewRouter(searchService service.Service,
+	shortenerService shortenersvc.Service) Router {
 	templatesFiles := []string{}
 	filepath.Walk(webP+"/templates", func(path string, info fs.FileInfo, err error) error {
 		if info.IsDir() {
@@ -65,8 +72,9 @@ func NewRouter(searchService service.Service) Router {
 		return nil
 	})
 	return Router{
-		searchService: searchService,
-		templates:     template.Must(template.ParseFiles(templatesFiles...)),
+		searchService:    searchService,
+		shortenerService: shortenerService,
+		templates:        template.Must(template.ParseFiles(templatesFiles...)),
 	}
 }
 
