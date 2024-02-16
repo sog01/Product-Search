@@ -2,6 +2,7 @@ package web
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sog01/pipe"
@@ -170,7 +171,7 @@ func (r Router) RedirectShortener(c *gin.Context) {
 
 func (r Router) ShareCatalog(c *gin.Context) {
 	resp, err := r.shortenerService.CreateShortener(c.Request.Context(), shortenermodel.CreateShortenerReq{
-		RealURL: "http://localhost:8080/product?catalog=" + c.Request.FormValue("catalog"),
+		RealURL: os.Getenv("SERVER.BASEURL") + "/product?catalog=" + c.Request.FormValue("catalog"),
 	})
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, map[string]any{
@@ -180,6 +181,6 @@ func (r Router) ShareCatalog(c *gin.Context) {
 	}
 	r.templates.ExecuteTemplate(c.Writer, "catalog_share", map[string]any{
 		"Catalog":      c.Request.FormValue("catalog"),
-		"ShortenerURL": "http://localhost:8080/" + resp.Slug,
+		"ShortenerURL": os.Getenv("SERVER.BASEURL") + "/share/" + resp.Slug,
 	})
 }

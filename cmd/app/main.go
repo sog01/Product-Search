@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	"github.com/joho/godotenv"
 	"github.com/olivere/elastic/v7"
 	_ "github.com/sog01/productdiscovery/docs"
 	"github.com/sog01/productdiscovery/indices"
@@ -25,6 +26,12 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed create elasticsearch client: %v", err)
 	}
+
+	err = godotenv.Load()
+	if err != nil {
+		log.Fatalf("failed read .env file: %v", err)
+	}
+
 	indices.Create(es)
 	search := service.NewService(es)
 	shortener := shortenersvc.NewService(es)
