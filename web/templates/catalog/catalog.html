@@ -5,78 +5,43 @@
       {{range $key, $value := .Catalogs }}
       <div class="col">
         <div class="card text">
-          <div
-            id="carousel{{$key}}"
-            class="carousel carousel-dark slide"
-            data-bs-ride="carousel"
-          >
+          <div id="carousel{{$key}}" class="carousel carousel-dark slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
-              <button
-                type="button"
-                data-bs-target="#carousel{{$key}}"
-                data-bs-slide-to="0"
-                class="active"
-                aria-current="true"
-                aria-label="Slide 1"
-              ></button>
-              <button
-                type="button"
-                data-bs-target="#carousel{{$key}}"
-                data-bs-slide-to="1"
-                aria-label="Slide 2"
-              ></button>
-              <button
-                type="button"
-                data-bs-target="#carousel{{$key}}"
-                data-bs-slide-to="2"
-                aria-label="Slide 3"
-              ></button>
+              <button type="button" data-bs-target="#carousel{{$key}}" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#carousel{{$key}}" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#carousel{{$key}}" data-bs-slide-to="2"
+                aria-label="Slide 3"></button>
             </div>
             <div class="carousel-inner">
               {{ range $key, $val := $value.Data }}
               <div class="carousel-item {{if eq $key 0}}active{{end}}">
-                <img
-                  class="card-img-top"
-                  src="{{.ImageURL}}"
-                  style="object-fit: contain; height: max(10rem, 30vh)"
-                  alt="Card image cap"
-                />
+                <img class="card-img-top" src="{{.ImageURL}}" style="object-fit: contain; height: max(10rem, 30vh)"
+                  alt="Card image cap" />
               </div>
               {{ end }}
             </div>
-            <button
-              class="carousel-control-prev"
-              type="button"
-              data-bs-target="#carousel{{$key}}"
-              data-bs-slide="prev"
-            >
-              <span
-                class="carousel-control-prev-icon"
-                aria-hidden="true"
-              ></span>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carousel{{$key}}" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Previous</span>
             </button>
-            <button
-              class="carousel-control-next"
-              type="button"
-              data-bs-target="#carousel{{$key}}"
-              data-bs-slide="next"
-            >
-              <span
-                class="carousel-control-next-icon"
-                aria-hidden="true"
-              ></span>
+            <button class="carousel-control-next" type="button" data-bs-target="#carousel{{$key}}" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Next</span>
             </button>
           </div>
           <div class="card-body">
+            <form id="share-form-{{ $value.Catalog }}" hx-post="/catalog/share" hx-target="#catalog-share">
+              <input type="text" value="{{ $value.Catalog }}" name="catalog" style="display: none" />
+            </form>
             <h5 class="card-title">{{ $value.Catalog }}</h5>
-            <a
-              class="btn btn-primary btn-block"
-              href="/product?catalog={{$value.Catalog}}"
-              >See More</a
-            >
-            <a class="btn btn-outline-primary btn-block" href="#">Share</a>
+            <a class="btn btn-primary btn-block" href="/product?catalog={{$value.Catalog}}">See More</a>
+            <button type="submit" form="share-form-{{ $value.Catalog }}" class="btn btn-outline-primary"
+              data-bs-toggle="modal" data-bs-target="#catalog-share-modal">
+              Share
+            </button>
+            </form>
           </div>
         </div>
       </div>
@@ -84,4 +49,25 @@
     </div>
   </div>
 </div>
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 100000;" aria-live="polite">
+  <div id="liveToast" class="toast hide" role="alert" aria-atomic="true">
+    <div class="toast-body">
+      <div class="d-flex justify-content-between">
+        <span>
+          Content Copied to Clipboard
+        </span>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="catalog-share-modal" tabindex="-1" aria-labelledby="catalog-share-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div id="catalog-share" class="modal-content"></div>
+  </div>
+</div>
+<script>
+  var shortenerResult = document.getElementById("catalog-share")
+  shortenerResult.addEventListener("shown.bs.modal", function () { })
+</script>
 {{template "footer" .}} {{end}}

@@ -1,0 +1,49 @@
+{{ define "catalog_share" }}
+<div class="modal-header">
+  <h5 class="modal-title" id="shortener-modal-label">Catalog Share URL</h5>
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="modal"
+    aria-label="Close"
+  ></button>
+</div>
+<div class="modal-body">
+  <div class="form-group">
+    <label for="share-url">Share URL for {{.Catalog}}</label>
+    <input
+      type="text"
+      class="form-control"
+      id="share-url"
+      disabled
+      aria-describedby="share-url-help"
+      value="{{ .ShortenerURL }}"
+    />
+    <small id="share-url-help" class="form-text text-muted"
+      >You can share your catalog {{.Catalog}} with this url</small
+    >
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+    Close
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary"
+    onclick="let copyText = document.getElementById('share-url');
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(copyText.value);
+    
+    let toastElList = [].slice.call(document.querySelectorAll('.toast'))
+    let toastList = toastElList.map(function (toastEl) {
+      return new bootstrap.Toast(toastEl)
+    })
+    toastList.forEach(toast => toast.show())
+  "
+  >
+    Copy to clipboard
+  </button>
+</div>
+{{end}}
