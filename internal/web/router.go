@@ -23,6 +23,7 @@ type Router struct {
 func (r Router) Run() {
 	g := gin.Default()
 	g.StaticFS("/static/", http.Dir(webP+"/static"))
+	g.StaticFS("/images/", http.Dir(webP+"/images"))
 	r.webRouter(g)
 	r.apiRouter(g)
 
@@ -61,6 +62,10 @@ func (r Router) apiRouter(g *gin.Engine) {
 	{
 		shortenerAPI.GET("/", r.GetShortener)
 		shortenerAPI.POST("/", r.CreateShortener)
+	}
+	uploadAPI := api.Group("/upload")
+	{
+		uploadAPI.POST("/file", r.UploadFile)
 	}
 }
 

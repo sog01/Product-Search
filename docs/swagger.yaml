@@ -312,4 +312,16 @@ paths:
       summary: CreateShortener create url shortener
       tags:
       - Shortener API
+  /upload/file:
+    post:
+      description: UploadFile upload file to server
+      parameters:
+      - description: file
+        in: formData
+        name: file
+        type: file
+      responses: {}
+      summary: UploadFile upload file to server
+      tags:
+      - Upload File API
 swagger: "2.0"

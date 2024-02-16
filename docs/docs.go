@@ -294,6 +294,24 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/upload/file": {
+            "post": {
+                "description": "UploadFile upload file to server",
+                "tags": [
+                    "Upload File API"
+                ],
+                "summary": "UploadFile upload file to server",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "file",
+                        "name": "file",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {}
+            }
         }
     },
     "definitions": {
