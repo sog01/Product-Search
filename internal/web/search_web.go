@@ -12,7 +12,9 @@ import (
 )
 
 func (r Router) Index(c *gin.Context) {
-	r.templates.ExecuteTemplate(c.Writer, "index", nil)
+	r.templates.ExecuteTemplate(c.Writer, "index", map[string]any{
+		"Logo": os.Getenv("LOGO.URL"),
+	})
 }
 
 func (r Router) SearchProducts(c *gin.Context) {
