@@ -2,3 +2,4 @@ vendor/
 cmd/app/main
 .env
 images
+docs/
