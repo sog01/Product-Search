@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"strings"
@@ -36,9 +37,9 @@ func NewSearchRepository(cli *elastic.Client) SearchRepository {
 				search.Query(elastic.NewBoolQuery().Must(queries...))
 			}
 
-			if args.NextCursor.String != "" {
+			if nextCursor, _ := base64.StdEncoding.DecodeString(args.NextCursor.String); string(nextCursor) != "" {
 				searchAfter := []any{}
-				for _, c := range strings.Split(args.NextCursor.String, ",") {
+				for _, c := range strings.Split(string(nextCursor), "|||") {
 					searchAfter = append(searchAfter, c)
 				}
 				search.SearchAfter(searchAfter...)

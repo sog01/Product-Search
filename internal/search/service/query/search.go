@@ -2,6 +2,7 @@ package query
 
 import (
 	"context"
+	"encoding/base64"
 	"fmt"
 	"log"
 	"strconv"
@@ -56,8 +57,10 @@ func composeResponse(ctx context.Context, args model.SearchReq, responses pipe.R
 		}
 	}
 
+	joinedStrings := strings.Join(sortStrings, "|||")
+
 	return model.SearchResponse{
 		Products:   productListResp,
-		NextCursor: strings.Join(sortStrings, ","),
+		NextCursor: base64.StdEncoding.EncodeToString([]byte(joinedStrings)),
 	}, nil
 }
