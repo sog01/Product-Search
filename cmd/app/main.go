@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/joho/godotenv"
 	"github.com/olivere/elastic/v7"
@@ -19,17 +20,19 @@ import (
 // @BasePath  /api
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("failed read .env file: %v", err)
+	}
+
+	log.Println("elastic baseURL", os.Getenv("ELASTIC.BASEURL"))
 	es, err := elastic.NewClient(
 		elastic.SetHealthcheck(false),
 		elastic.SetSniff(false),
+		elastic.SetURL(os.Getenv("ELASTIC.BASEURL")),
 	)
 	if err != nil {
 		log.Fatalf("failed create elasticsearch client: %v", err)
-	}
-
-	err = godotenv.Load()
-	if err != nil {
-		log.Fatalf("failed read .env file: %v", err)
 	}
 
 	indices.Create(es)
