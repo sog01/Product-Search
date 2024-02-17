@@ -53,10 +53,11 @@ func (r Router) apiRouter(g *gin.Engine) {
 		searchAPI.GET("/total", r.SearchTotal)
 		searchAPI.GET("/catalogs", r.SearchCatalogs)
 	}
-	productAPI := api.Group("/products/bulk")
+	productAPI := api.Group("/products")
 	{
-		productAPI.POST("/", r.BulkInsert)
-		productAPI.POST("/update", r.BulkUpdate)
+		productAPI.POST("/bulk", r.BulkInsert)
+		productAPI.POST("/bulk/update", r.BulkUpdate)
+		productAPI.POST("/upload/csv", r.UploadCSV)
 	}
 	shortenerAPI := api.Group("/shortener")
 	{

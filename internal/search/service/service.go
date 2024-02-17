@@ -18,6 +18,7 @@ type Service interface {
 	SearchTopProductCatalogs(ctx context.Context, req model.SearchTopProductCatalogReq) (model.SearchTopProductCatalogResp, error)
 	BulkInsert(ctx context.Context, req model.BulkInsertReq) (model.BulkInsertResp, error)
 	BulkUpdate(ctx context.Context, req model.BulkUpdateReq) (model.BulkUpdateResp, error)
+	UploadProductCsv(ctx context.Context, req model.UploadProductCsvReq) (model.UploadProductCsvResp, error)
 }
 
 type SearchService struct {
@@ -48,6 +49,9 @@ func (s SearchService) BulkInsert(ctx context.Context, req model.BulkInsertReq) 
 }
 func (s SearchService) BulkUpdate(ctx context.Context, req model.BulkUpdateReq) (model.BulkUpdateResp, error) {
 	return mutation.BulkUpdate(ctx, req, s.bulkUpdateRepo)
+}
+func (s SearchService) UploadProductCsv(ctx context.Context, req model.UploadProductCsvReq) (model.UploadProductCsvResp, error) {
+	return mutation.UploadProductCSV(ctx, req, s.bulkInsertRepo)
 }
 
 func NewService(es *elastic.Client) Service {

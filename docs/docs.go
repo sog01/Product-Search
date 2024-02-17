@@ -83,6 +83,24 @@ const docTemplate = `{
                 }
             }
         },
+        "/products/upload/csv": {
+            "post": {
+                "description": "UploadProductCSV upload product from given csv file to server",
+                "tags": [
+                    "Products API"
+                ],
+                "summary": "UploadProductCSV upload product from given csv file to server",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "csv",
+                        "name": "csv",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/search": {
             "get": {
                 "description": "Search product from given q",

@@ -168,3 +168,26 @@ func (api Router) BulkUpdate(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, resp)
 }
+
+// UploadProductCSV upload product from given csv file to server
+// @Summary      UploadProductCSV upload product from given csv file to server
+// @Description  UploadProductCSV upload product from given csv file to server
+// @Tags         Products API
+// @Param        csv  formData  file  false "csv"
+// @Router       /products/upload/csv [post]
+func (api Router) UploadCSV(c *gin.Context) {
+	file, err := c.FormFile("csv")
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, map[string]any{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	resp, err := api.searchService.UploadProductCsv(c.Request.Context(), model.UploadProductCsvReq{CsvFile: file})
+	if err != nil {
+		http.Error(c.Writer, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	c.JSON(http.StatusOK, resp)
+}

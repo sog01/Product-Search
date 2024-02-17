@@ -40,6 +40,7 @@ func (api Router) UploadFile(c *gin.Context) {
 		})
 		return
 	}
+	defer f.Close()
 
 	_, err = io.Copy(dst, f)
 	if err != nil {
