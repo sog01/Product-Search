@@ -3,6 +3,7 @@ package web
 import (
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sog01/pipe"
@@ -40,7 +41,7 @@ func (r Router) SearchProductsAutocomplete(c *gin.Context) {
 	for _, autocomplete := range resp.Autocompletes {
 		autocompletes = append(autocompletes, map[string]any{
 			"Highlight": autocomplete.Highlight,
-			"Href":      "/product?q=" + autocomplete.Title,
+			"Href":      "/product?q=" + strings.ReplaceAll(autocomplete.Title, `"`, ""),
 		})
 	}
 
