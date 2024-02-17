@@ -13,6 +13,7 @@ import (
 func BulkInsert(ctx context.Context, req model.BulkInsertReq, repo repository.BulkInsertRepository) (model.BulkInsertResp, error) {
 	exec := pipe.PCtx(
 		validateBulkInsertRequest,
+		repo.UploadImagesURL,
 		repo.BulkInsert,
 	)
 

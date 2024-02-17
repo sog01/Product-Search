@@ -336,4 +336,16 @@ paths:
       summary: UploadFile upload file to server
       tags:
       - Upload File API
+  /upload/file/url:
+    post:
+      description: UploadFileURL upload file from url to server
+      parameters:
+      - description: fileURL
+        in: formData
+        name: file_url
+        type: string
+      responses: {}
+      summary: UploadFileURL upload file from url to server
+      tags:
+      - Upload File API
 swagger: "2.0"

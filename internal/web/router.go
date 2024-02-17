@@ -67,6 +67,7 @@ func (r Router) apiRouter(g *gin.Engine) {
 	uploadAPI := api.Group("/upload")
 	{
 		uploadAPI.POST("/file", r.UploadFile)
+		uploadAPI.POST("/file/url", r.UploadFileURL)
 	}
 }
 

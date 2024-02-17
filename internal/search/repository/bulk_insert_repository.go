@@ -3,6 +3,10 @@ package repository
 import (
 	"context"
 	"fmt"
+	"io"
+	"log"
+	"net/http"
+	"os"
 	"strings"
 	"time"
 
@@ -10,17 +14,52 @@ import (
 	uuid "github.com/satori/go.uuid"
 	"github.com/sog01/pipe"
 	"github.com/sog01/productdiscovery/internal/search/model"
+	"github.com/sog01/productdiscovery/pkg"
 )
 
 type BulkInsertRepository struct {
-	BulkInsert pipe.FuncCtx[model.BulkInsertReq]
+	UploadImagesURL pipe.FuncCtx[model.BulkInsertReq]
+	BulkInsert      pipe.FuncCtx[model.BulkInsertReq]
 }
 
 func NewBulkInsertRepository(cli *elastic.Client) BulkInsertRepository {
 	return BulkInsertRepository{
-		BulkInsert: func(ctx context.Context, args model.BulkInsertReq, responses pipe.Responses) (response any, err error) {
-			reqs := []elastic.BulkableRequest{}
+		UploadImagesURL: func(ctx context.Context, args model.BulkInsertReq, responses pipe.Responses) (any, error) {
+			response := model.BulkInsertReq{}
 			for _, product := range args.ProductSearchInput {
+				resp, err := http.Get(product.ImageURL)
+				if err != nil {
+					log.Printf("failed to get image url %v\n", err)
+					continue
+				}
+				defer resp.Body.Close()
+
+				imageName := time.Now().UnixNano()
+				imagePath := fmt.Sprintf(pkg.WebPath()+"/images/%d", imageName)
+				dst, err := os.Create(imagePath)
+				if err != nil {
+					return nil, fmt.Errorf("failed to create image file: %v", err)
+				}
+				defer dst.Close()
+
+				_, err = io.Copy(dst, resp.Body)
+				if err != nil {
+					return nil, fmt.Errorf("failed to copy image file: %v", err)
+				}
+
+				product.ImageURL = fmt.Sprintf("%s/images/%d", os.Getenv("SERVER.BASEURL"), imageName)
+				response.ProductSearchInput = append(response.ProductSearchInput, product)
+			}
+			return response, nil
+		},
+		BulkInsert: func(ctx context.Context, args model.BulkInsertReq, responses pipe.Responses) (response any, err error) {
+			searchInput := pipe.Get[model.BulkInsertReq](responses)
+			if len(searchInput.ProductSearchInput) == 0 {
+				searchInput = args
+			}
+
+			reqs := []elastic.BulkableRequest{}
+			for _, product := range searchInput.ProductSearchInput {
 				id := uuid.NewV4().String()
 				data := map[string]interface{}{
 					"id":         id,

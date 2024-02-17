@@ -323,6 +323,24 @@
                 ],
                 "responses": {}
             }
+        },
+        "/upload/file/url": {
+            "post": {
+                "description": "UploadFileURL upload file from url to server",
+                "tags": [
+                    "Upload File API"
+                ],
+                "summary": "UploadFileURL upload file from url to server",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "fileURL",
+                        "name": "file_url",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {}
+            }
         }
     },
     "definitions": {
