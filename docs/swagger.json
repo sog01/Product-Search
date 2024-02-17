@@ -5,7 +5,6 @@
         "title": "Product Search API",
         "contact": {}
     },
-    "host": "localhost:8080",
     "basePath": "/api",
     "paths": {
         "/products/bulk": {

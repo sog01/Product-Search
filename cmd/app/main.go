@@ -15,8 +15,6 @@ import (
 
 // @title           Product Search API
 // @description     This is a product search API swagger documentation.
-
-// @host      localhost:8080
 // @BasePath  /api
 
 func main() {

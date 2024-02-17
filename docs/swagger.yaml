@@ -124,7 +124,6 @@ definitions:
       total:
         type: integer
     type: object
-host: localhost:8080
 info:
   contact: {}
   description: This is a product search API swagger documentation.

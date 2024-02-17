@@ -8,6 +8,7 @@ import (
 	"text/template"
 
 	"github.com/gin-gonic/gin"
+	"github.com/sog01/productdiscovery/docs"
 	"github.com/sog01/productdiscovery/internal/search/service"
 	shortenersvc "github.com/sog01/productdiscovery/internal/shortener/service"
 	swaggerFiles "github.com/swaggo/files"
@@ -27,7 +28,10 @@ func (r Router) Run() {
 	r.webRouter(g)
 	r.apiRouter(g)
 
-	g.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	g.GET("/swagger/*any", func(ctx *gin.Context) {
+		docs.SwaggerInfo.Host = os.Getenv("SWAGGER.HOST")
+		ginSwagger.WrapHandler(swaggerFiles.Handler)(ctx)
+	})
 	g.Run()
 }
 
