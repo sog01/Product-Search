@@ -17,9 +17,6 @@ func CreateProductSearch(ec *elastic.Client) error {
                         "filter": [
                             "lowercase"
                         ]
-                    },
-                    "autocomplete_search": {
-                        "tokenizer": "lowercase"
                     }
                 },
                 "tokenizer": {
@@ -28,7 +25,8 @@ func CreateProductSearch(ec *elastic.Client) error {
                         "min_gram": 1,
                         "max_gram": 10,
                         "token_chars": [
-                            "letter"
+                            "letter",
+                            "digit"
                         ]
                     }
                 }
@@ -42,7 +40,6 @@ func CreateProductSearch(ec *elastic.Client) error {
                 "title": {
                     "type": "text",
                     "analyzer": "autocomplete",
-                    "search_analyzer": "autocomplete_search",
                     "fields": {
                         "keyword": {
                             "type": "keyword"
